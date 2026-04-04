@@ -26,7 +26,9 @@
     <div id="app">
         <!-- Screen 1: Language Selection -->
         <section id="screen-language" class="screen active fade-in">
-            <h1 class="logo glow">WAY TO <strong>DUNK</strong></h1>
+            <div class="logo-main text-center" style="margin-bottom:2rem; display:flex; flex-direction:column; align-items:center;">
+                <img src="logo.png" style="width:180px; height:auto; object-fit:contain; filter:drop-shadow(0 0 20px rgba(0,255,204,0.6)); margin-bottom: 0.5rem;" alt="Way To Dunk Logo">
+            </div>
             <h2 class="lbl-select-lang text-center">Select Language</h2>
             <div class="card-grid" style="grid-template-columns: repeat(2, 1fr); max-height: 50vh; overflow-y:auto; padding-right:1rem;">
                 <button class="btn btn-primary" onclick="setLanguage('en')">English</button>
@@ -168,7 +170,9 @@
         <!-- Screen 3: Dashboard / Navigation -->
         <section id="screen-dashboard" class="screen hidden">
             <header class="top-nav">
-                <h2 class="logo glow">WD <strong>App</strong></h2>
+                <h2 class="logo glow" style="display:flex; align-items:center; gap:0.5rem; margin:0; font-size:1.5rem;">
+                    <img src="logo.png" style="width:45px; height:auto; object-fit:contain; filter:drop-shadow(0 0 8px rgba(0,255,204,0.6));" alt="App Logo">
+                </h2>
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                     <div class="user-stats banner-glass" onclick="goScreen('onboarding')">
                         <span class="lbl-dash-est">Profile Saved</span>
