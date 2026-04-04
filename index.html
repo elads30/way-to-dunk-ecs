@@ -221,12 +221,15 @@
             <button class="btn-back" onclick="stopCameraAndGo('dashboard')">← <span class="lbl-back">Back</span></button>
             <h1 class="glow lbl-camera-title">Live AI Tracker</h1>
             
-            <div class="camera-controls">
-                <label class="lbl-jump-type">Jump Type:</label>
-                <select id="jump-type-select">
-                    <option value="standing" class="opt-standing">Standing Vertical</option>
-                    <option value="running" class="opt-running">Running Vertical</option>
-                </select>
+            <div class="camera-controls" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <label class="lbl-jump-type">Jump Type:</label>
+                    <select id="jump-type-select" style="background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--accent-primary); padding: 0.4rem; border-radius: 8px;">
+                        <option value="standing" class="opt-standing">Standing Vertical</option>
+                        <option value="running" class="opt-running">Running Vertical</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="toggleCamera()" style="padding: 0.4rem; font-size: 1.2rem; border-radius:10px;">🔄</button>
             </div>
 
             <div class="video-container mt-2">

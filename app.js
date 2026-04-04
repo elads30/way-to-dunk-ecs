@@ -279,6 +279,7 @@ let baselineY = 0, minAngle = 180, jumpStartTime = 0, jumpEndTime = 0;
 let animFrameId;
 let isUploadedVideo = false;
 let uploadedVideoBlobUrl = null;
+let currentFacingMode = 'environment';
 
 async function startCameraAnalysis() {
     isUploadedVideo = false;
@@ -294,7 +295,10 @@ async function startCameraAnalysis() {
     ctx = canvas.getContext('2d');
 
     try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        if(stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false });
         video.srcObject = stream;
         video.loop = false;
         video.onended = null;
@@ -311,6 +315,14 @@ async function startCameraAnalysis() {
     } catch (err) {
         alert(currentLang === 'he' ? "שגיאה בגישה למצלמה. אנא ודא הרשאות." : "Camera access error. Check permissions.");
     }
+}
+
+function toggleCamera() {
+    currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+    if(stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+    startCameraAnalysis();
 }
 
 function promptGalleryAccess() {
