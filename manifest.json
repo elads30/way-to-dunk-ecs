@@ -1,0 +1,18 @@
+{
+  "name": "Way To Dunk",
+  "short_name": "Way To Dunk",
+  "description": "AI powered vertical jump analyzer and personalized basketball training app.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0f16",
+  "theme_color": "#00ffcc",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
