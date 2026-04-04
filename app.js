@@ -209,6 +209,30 @@ function selectGender(val) {
     if(cardO) cardO.classList.remove('selected');
     let cardSel = document.getElementById(`card-${val}`);
     if(cardSel) cardSel.classList.add('selected');
+    
+    // Enable next button for step 2
+    let btn = document.getElementById('btn-next-2');
+    if(btn) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+    }
+}
+
+function checkStep1() {
+    let nameVal = document.getElementById('input-name').value;
+    let btn = document.getElementById('btn-next-1');
+    if(btn) {
+        if(nameVal && nameVal.trim() !== "") {
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            btn.style.cursor = "pointer";
+        } else {
+            btn.disabled = true;
+            btn.style.opacity = "0.4";
+            btn.style.cursor = "not-allowed";
+        }
+    }
 }
 
 function saveProfileAndGoDashboard() {
