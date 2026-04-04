@@ -67,7 +67,7 @@
                         <circle id="onboarding-ring" stroke-width="4" stroke="#00ffcc" fill="transparent" r="26" cx="30" cy="30" 
                                 style="stroke-dasharray: 163.36; stroke-dashoffset: 163.36; transition: stroke-dashoffset 0.4s ease; stroke-linecap: round;" />
                     </svg>
-                    <div id="onboarding-text" style="position:absolute; top:22px; width:100%; text-align:center; font-weight:bold; color:#fff; font-size:0.8rem;">1/6</div>
+                    <div id="onboarding-text" style="position:absolute; top:22px; width:100%; text-align:center; font-weight:bold; color:#fff; font-size:0.8rem;">1/8</div>
                 </div>
                 <h1 class="glow onboarding-title mt-2">Let's build your profile.</h1>
                 <p class="onboarding-subtitle">Answer some quick questions so our AI can personalize your training.</p>
@@ -174,6 +174,39 @@
                     </div>
                     <div style="display:flex; gap:1rem;" class="mt-4">
                         <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(6)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-next" onclick="nextStep(6)">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Workout Duration -->
+                <div id="step-7" class="wizard-step hidden fade-in">
+                    <div class="form-group">
+                        <label class="lbl-workout-duration">How much time do you have?</label>
+                        <select id="input-duration">
+                            <option value="15" class="opt-time-15">15 Minutes (Quick)</option>
+                            <option value="30" class="opt-time-30">30 Minutes (Standard)</option>
+                            <option value="45" class="opt-time-45">45 Minutes (Extended)</option>
+                            <option value="60" class="opt-time-60">60 Minutes (Full Session)</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(7)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-next" onclick="nextStep(7)">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 8: Workout Difficulty -->
+                <div id="step-8" class="wizard-step hidden fade-in">
+                    <div class="form-group">
+                        <label class="lbl-workout-difficulty">Workout Intensity</label>
+                        <select id="input-difficulty">
+                            <option value="easy" class="opt-diff-easy">Easy (Beginner)</option>
+                            <option value="hard" class="opt-diff-hard">Hard (Advanced)</option>
+                            <option value="pro" class="opt-diff-pro">Pro (Elite Athlete)</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(8)">Back</button>
                         <button class="btn btn-neon w-100 lbl-generate glow-on-hover" onclick="saveProfileAndGoDashboard()">Save Profile</button>
                     </div>
                 </div>
@@ -282,17 +315,44 @@
             </div>
         </section>
 
-        <!-- Screen 5: Dynamic Workout Plan -->
+        <!-- Screen 5: Dynamic Workout Plan / Runner -->
         <section id="screen-workout" class="screen hidden">
-            <button class="btn-back" onclick="goScreen('dashboard')">← <span class="lbl-back">Back</span></button>
-            <h1 class="glow lbl-workout-main-title">Your AI Plan</h1>
-            <p id="workout-custom-reason" class="lbl-workout-desc-main" style="color:#00ffcc; margin-bottom:1rem; font-size:0.9rem;"></p>
+            <button class="btn-back" onclick="stopWorkoutAndExit()">← <span class="lbl-back">Back</span></button>
+            <h1 class="glow lbl-workout-main-title text-center">Your AI Plan</h1>
+            <p id="workout-custom-reason" class="lbl-workout-desc-main text-center" style="color:#00ffcc; margin-bottom:1rem; font-size:0.9rem;"></p>
 
-            <div id="dynamic-workout-list" class="workout-list">
-                <!-- Injected via app.js -->
+            <!-- Pre-workout Preview -->
+            <div id="workout-preview">
+                <div id="dynamic-workout-list" class="workout-list mb-4">
+                    <!-- Preview list injected via app.js -->
+                </div>
+                <button class="btn btn-neon w-100" id="lbl-start-workout-btn" onclick="startActiveWorkout()" style="font-size:1.5rem; padding:1rem; border-radius:12px;">Start Session ⏱️</button>
             </div>
-            
-            <button class="btn btn-primary mt-4 w-100 lbl-complete" onclick="alert(translations[currentLang]['alert-workout']); goScreen('dashboard')">Complete Workout</button>
+
+            <!-- Active Runner Interface -->
+            <div id="workout-active-runner" class="hidden text-center mt-2 fade-in">
+                <div class="runner-visual mb-4" style="height: 180px; display:flex; justify-content:center; align-items:center; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid var(--accent-primary);">
+                    <img id="runner-image" src="" alt="Exercise Icon" style="max-height:80%; object-fit:contain; filter:drop-shadow(0 0 15px rgba(0,255,204,0.6));">
+                </div>
+                
+                <h2 id="runner-exercise-name" style="font-size: 2rem; margin-bottom:0.5rem;" class="glow">Squats</h2>
+                
+                <h1 id="runner-timer" style="font-size: 4.5rem; color: #00ffcc; font-weight:800; font-family: monospace; letter-spacing: 2px;">00:00</h1>
+                <p id="runner-instruction" style="font-size: 1.2rem; color:#ccc;">Get Ready!</p>
+                
+                <div class="runner-controls mt-4" style="display:flex; justify-content:center; gap:1rem;">
+                    <button class="btn btn-secondary w-100" id="btn-pause-res" onclick="togglePauseWorkout()">Pause</button>
+                    <button class="btn btn-primary w-100" onclick="skipToNext()">Skip →</button>
+                </div>
+            </div>
+
+            <!-- Complete State -->
+            <div id="workout-complete" class="hidden text-center mt-4 slide-up">
+                <h1 style="font-size: 4rem;">🎉</h1>
+                <h2 class="glow mb-2" id="lbl-workout-done">Workout Complete!</h2>
+                <p class="mb-4 text-muted">You earned your rest.</p>
+                <button class="btn btn-neon mt-4 w-100" onclick="finishWorkoutSession()">Return to Dashboard</button>
+            </div>
         </section>
 
     </div>

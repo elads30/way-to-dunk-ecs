@@ -17,7 +17,11 @@ const translations = {
         'lbl-start-scan': "Start Scan", 'lbl-camera-instr': "Wait for AI model...",
         'lbl-analysis-res': "Analysis Complete", 'lbl-height-res': "Jump Height:", 'lbl-hang-time': "Hang Time:",
         'lbl-knee-angle': "Max Knee Bend:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Save & Return",
-        'lbl-workout-main-title': "Your AI Plan", 'lbl-complete': "Complete Workout", 'alert-workout': "Workout registered!"
+        'lbl-workout-main-title': "Your AI Plan", 'lbl-complete': "Complete Workout", 'alert-workout': "Workout registered!",
+        'lbl-workout-duration': "How much time do you have?", 'opt-time-15': "15 Minutes (Quick)",
+        'opt-time-30': "30 Minutes (Standard)", 'opt-time-45': "45 Minutes (Extended)", 'opt-time-60': "60 Minutes (Full Session)",
+        'lbl-workout-difficulty': "Workout Intensity", 'opt-diff-easy': "Easy (Beginner)",
+        'opt-diff-hard': "Hard (Advanced)", 'opt-diff-pro': "Pro (Elite Athlete)"
     },
     he: {
         'lbl-select-lang': "בחר שפה", 'lbl-next': "הבא", 'lbl-prev': "חזור",
@@ -37,7 +41,11 @@ const translations = {
         'lbl-start-scan': "סריקה", 'lbl-camera-instr': "המתן ל-AI...",
         'lbl-analysis-res': "הניתוח הושלם", 'lbl-height-res': "גובה:", 'lbl-hang-time': "זמן אוויר:",
         'lbl-knee-angle': "זווית ברך:", 'lbl-ai-rec-title': "משוב:", 'lbl-save-jump': "שמור וחזור",
-        'lbl-workout-main-title': "התוכנית שלך", 'lbl-complete': "סיים אימון", 'alert-workout': "האימון נשמר!"
+        'lbl-workout-main-title': "התוכנית שלך", 'lbl-complete': "סיים אימון", 'alert-workout': "האימון נשמר!",
+        'lbl-workout-duration': "כמה זמן יש לך לאימון?", 'opt-time-15': "15 דקות (זריז)",
+        'opt-time-30': "30 דקות (רגיל)", 'opt-time-45': "45 דקות (מורחב)", 'opt-time-60': "60 דקות (שעה)",
+        'lbl-workout-difficulty': "רמת קושי באימון", 'opt-diff-easy': "קל (מתחילים/חזרה לכושר)",
+        'opt-diff-hard': "קשה (מתקדמים)", 'opt-diff-pro': "מקצוען (ספורטאי עלית)"
     },
     es: {
         'lbl-select-lang': "Idioma", 'lbl-next': "Siguiente", 'lbl-prev': "Atrás",
@@ -155,7 +163,7 @@ function goScreen(screenId) {
 // Wizard Logic
 // ==========================================
 let currentStep = 1;
-const totalSteps = 6;
+const totalSteps = 8;
 
 function nextStep(stepData) {
     if(stepData === 1) {
@@ -250,7 +258,9 @@ function saveProfileAndGoDashboard() {
         diet: document.getElementById('input-diet').value,
         freq: document.getElementById('input-freq').value,
         height: document.getElementById('input-height').value,
-        weight: document.getElementById('input-weight').value
+        weight: document.getElementById('input-weight').value,
+        duration: document.getElementById('input-duration').value,
+        difficulty: document.getElementById('input-difficulty').value
     };
 
     localStorage.setItem('waydunk_profile', JSON.stringify(userProfile));
@@ -635,55 +645,189 @@ function stopCameraAndGo(screenId) {
 }
 
 // ==========================================
-// DYNAMIC WORKOUT GENERATOR (Unchanged)
+// DYNAMIC WORKOUT GENERATOR & INTERACTIVE RUNNER
 // ==========================================
+const MASTER_EXERCISES = [
+    { en: 'Bodyweight Squats', he: 'סקוואט חופשי', type: 'reps', easy: 10, hard: 20, pro: 35 },
+    { en: 'Jump Squats', he: 'סקוואט קפיצה', type: 'reps', easy: 8, hard: 15, pro: 25 },
+    { en: 'Pushups', he: 'שכיבות סמיכה', type: 'reps', easy: 8, hard: 20, pro: 40 },
+    { en: 'Plank', he: 'פלאנק (בטן סטטית)', type: 'time', easy: 30, hard: 60, pro: 90 },
+    { en: 'Lunges', he: 'מכרעיים', type: 'reps', easy: 10, hard: 20, pro: 40 },
+    { en: 'Pogo Jumps', he: 'פוגו (ניתורי קרסול)', type: 'time', easy: 20, hard: 45, pro: 60 },
+    { en: 'Burpees', he: 'סמוך קום (ברפיז)', type: 'reps', easy: 5, hard: 12, pro: 20 },
+    { en: 'High Knees', he: 'הרמת ברכיים מהירה', type: 'time', easy: 20, hard: 40, pro: 60 },
+    { en: 'Calf Raises', he: 'הרמות תאומים', type: 'reps', easy: 15, hard: 30, pro: 50 },
+    { en: 'Wall Sit', he: 'ישיבת קיר', type: 'time', easy: 30, hard: 60, pro: 120 },
+    { en: 'Mountain Climbers', he: 'טיפוס הרים', type: 'time', easy: 20, hard: 45, pro: 60 },
+    { en: 'Broad Jumps', he: 'קפיצות לרוחק', type: 'reps', easy: 5, hard: 10, pro: 15 },
+    { en: 'Depth Drops', he: 'נפילות מעומק (נחיתה)', type: 'reps', easy: 5, hard: 10, pro: 15 },
+    { en: 'Split Jumps', he: 'מכרעיים בקפיצה', type: 'reps', easy: 8, hard: 16, pro: 24 },
+    { en: 'Tuck Jumps', he: 'קפיצות ברכיים לחזה', type: 'reps', easy: 5, hard: 12, pro: 20 }
+];
+
+let workoutSessionQueue = [];
+let currentExIndex = 0;
+let runnerTimerInterval = null;
+let runnerTimeLeft = 0;
+let isRunnerPaused = false;
+let isRunnerResting = false;
+
 function generateWorkoutPlan() {
     const list = document.getElementById('dynamic-workout-list');
     list.innerHTML = "";
     
-    if (jumpHistory.length === 0) {
-        document.getElementById('workout-custom-reason').innerText = currentLang === 'he' ? 
-            "עדיין לא קפצת! כרגע ה-AI נותן לך תוכנית כללית. בשביל התאמה אישית באמת - קפוץ במצלמה או סרוק סרטון!" : 
-            "You haven't jumped yet! This is a generic baseline timeline. Jump in front of the AI camera or upload a video for personalized workouts!";
-        document.getElementById('workout-custom-reason').style.color = '#ffaa00'; 
-    } else {
-        let goal = userProfile.goal || 'explosive';
-        let focus = "";
-        if (goal === 'dunk') focus = currentLang==='he'?"מבוסס על הסריקה שלך: מיקוד בכוח מְרִיאָה מקסימלי.":"Based on your scans: Max vertical velocity focus.";
-        if (goal === 'explosive') focus = currentLang==='he'?"מבוסס על הסריקה שלך: פליאומטריקה וכוח מהיר.":"Based on your scans: Fast-twitch plyometrics focus.";
-        if (goal === 'rehab') focus = currentLang==='he'?"מבוסס על הסריקה שלך: חיזוק גידים ונחיתות.":"Based on your scans: Tendon stiffness and landing mechanics.";
-        
-        let introName = userProfile.name ? userProfile.name + ", " : "";
-        document.getElementById('workout-custom-reason').innerText = introName + focus;
-        document.getElementById('workout-custom-reason').style.color = 'var(--accent-primary)';
+    // Determine number of exercises based on selected duration
+    let durationId = userProfile.duration || "30"; 
+    let diff = userProfile.difficulty || "hard";
+    
+    let exerciseCount = 8;
+    if(durationId === "15") exerciseCount = 5;
+    if(durationId === "30") exerciseCount = 10;
+    if(durationId === "45") exerciseCount = 15;
+    if(durationId === "60") exerciseCount = 20;
+
+    // Shuffle and pick
+    let shuffled = [...MASTER_EXERCISES].sort(() => 0.5 - Math.random());
+    workoutSessionQueue = shuffled.slice(0, Math.min(exerciseCount, shuffled.length));
+
+    // AI dynamic injection if camera history exists
+    if (jumpHistory.length > 0 && minAngle > 130) {
+        workoutSessionQueue[0] = { en: "Deep Squat Jumps (Shallow dip fix)", he: "סקוואט עמוק (לתיקון כיפוף סריקה)", type: 'reps', easy: 5, hard: 10, pro: 15 };
     }
 
-    let goal = userProfile.goal || 'explosive';
-    let workouts = [];
-    if(goal === 'rehab') {
-        workouts.push({ en: "Isometric Spanish Squats", he: "סקוואט סטטי ספרדי", reps: "3 Sets / 40 Seconds" });
-        workouts.push({ en: "Depth Drops (Landing focus)", he: "קפיצות ירידה (דגש נחיתה רכה)", reps: "4 Sets / 5 Reps" });
-    } else {
-        workouts.push({ en: "Depth Drops to Broad Jump", he: "נפילה מעומק לקפיצה למרחק", reps: "3 Sets / 6 Reps" });
-        workouts.push({ en: "Pogo Jumps (Stiff Ankle)", he: "פוגו (ניתורים מקרסול נוקשה)", reps: "4 Sets / 15 Reps" });
-        
-        if (jumpHistory.length > 0 && minAngle > 130) { 
-            workouts.push({ en: "Deep Squat Jumps (Correcting shallow dip)", he: "סקוואט קפיצה עמוק (לתיקון כיפוף ברך)", reps: "3 Sets / 8 Reps" });
-        }
-    }
-
-    workouts.forEach((wk) => {
+    workoutSessionQueue.forEach((wk, idx) => {
         let title = currentLang === 'he' ? wk.he : wk.en;
+        let diffVal = wk[diff];
+        let displayTarget = wk.type === 'time' ? `${diffVal} Sec` : `${diffVal} Reps`;
         list.innerHTML += `
-            <div class="glass-card workout-item">
-                <div class="workout-info">
-                    <strong>${title}</strong>
-                    <span class="workout-sets">${wk.reps}</span>
+            <div class="glass-card workout-item" style="padding:0.8rem; margin-bottom:0.5rem; border-radius:8px;">
+                <div class="workout-info" style="display:flex; justify-content:space-between; width:100%;">
+                    <strong>${idx+1}. ${title}</strong>
+                    <span class="workout-sets text-neon" style="color:var(--accent-primary); font-weight:bold;">${displayTarget}</span>
                 </div>
             </div>`;
     });
 
+    // Subtitle rendering
+    let introName = userProfile.name ? userProfile.name + ", " : "";
+    document.getElementById('workout-custom-reason').innerText = introName + (currentLang==='he'?"הנה תוכנית מותאמת לזמן שביקשת!":"Here is your personalized timed plan!");
+
+    // Reset UI states
+    document.getElementById('workout-preview').classList.remove('hidden');
+    document.getElementById('workout-active-runner').classList.add('hidden');
+    document.getElementById('workout-complete').classList.add('hidden');
+    
     goScreen('workout');
+}
+
+function startActiveWorkout() {
+    document.getElementById('workout-preview').classList.add('hidden');
+    document.getElementById('workout-active-runner').classList.remove('hidden');
+    currentExIndex = 0;
+    runExercise(currentExIndex);
+}
+
+function runExercise(index) {
+    if(index >= workoutSessionQueue.length) {
+        document.getElementById('workout-active-runner').classList.add('hidden');
+        document.getElementById('workout-complete').classList.remove('hidden');
+        return;
+    }
+
+    isRunnerResting = false;
+    let ex = workoutSessionQueue[index];
+    let diff = userProfile.difficulty || "hard";
+    let targetVal = ex[diff];
+    let title = currentLang === 'he' ? ex.he : ex.en;
+    
+    // Fallback logic for gender representation
+    let gen = userProfile.gender;
+    let fallbackImg = (gen === 'female') ? 'girl.png' : 'boy.png'; 
+    document.getElementById('runner-image').src = fallbackImg;
+    
+    document.getElementById('runner-exercise-name').innerText = title;
+
+    if(ex.type === 'time') {
+        document.getElementById('runner-instruction').innerText = currentLang==='he'?"זמן עבודה!":"Time Based!";
+        startTimer(targetVal, finishExercise);
+    } else {
+        document.getElementById('runner-instruction').innerText = currentLang==='he'?"בצע חזרות (לחץ דלג כשתסיים)":"Rep Based (Click Skip when done)";
+        document.getElementById('runner-timer').innerText = targetVal + (currentLang==='he'?" חזרות":" Reps");
+    }
+}
+
+function startTimer(seconds, callback) {
+    clearInterval(runnerTimerInterval);
+    runnerTimeLeft = seconds;
+    updateTimerDisplay();
+
+    runnerTimerInterval = setInterval(() => {
+        if(!isRunnerPaused) {
+            runnerTimeLeft--;
+            updateTimerDisplay();
+            
+            // Audio cue logic (simple beep)
+            if(runnerTimeLeft === 3) playBeep(500);
+            if(runnerTimeLeft === 0) {
+                playBeep(1000);
+                clearInterval(runnerTimerInterval);
+                callback();
+            }
+        }
+    }, 1000);
+}
+
+function playBeep(duration) {
+    let ctx = new (window.AudioContext || window.webkitAudioContext)();
+    let osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.connect(ctx.destination);
+    osc.start();
+    setTimeout(() => { osc.stop(); }, duration);
+}
+
+function updateTimerDisplay() {
+    let m = Math.floor(runnerTimeLeft / 60).toString().padStart(2, '0');
+    let s = (runnerTimeLeft % 60).toString().padStart(2, '0');
+    document.getElementById('runner-timer').innerText = `${m}:${s}`;
+}
+
+function togglePauseWorkout() {
+    isRunnerPaused = !isRunnerPaused;
+    let btn = document.getElementById('btn-pause-res');
+    if(btn) btn.innerText = isRunnerPaused ? (currentLang==='he'?"המשך":"Resume") : (currentLang==='he'?"השהה":"Pause");
+}
+
+function skipToNext() {
+    clearInterval(runnerTimerInterval);
+    if(isRunnerResting) {
+        currentExIndex++;
+        runExercise(currentExIndex);
+    } else {
+        finishExercise(); 
+    }
+}
+
+function finishExercise() {
+    isRunnerResting = true;
+    document.getElementById('runner-exercise-name').innerText = currentLang==='he'?"מנוחה!":"REST!";
+    document.getElementById('runner-instruction').innerText = currentLang==='he'?"קח אוויר. תרגיל הבא בקרוב...":"Catch your breath. Next soon...";
+    document.getElementById('runner-image').src = "logo.png"; 
+    document.getElementById('runner-timer').innerText = "00:20";
+    startTimer(20, () => {
+        currentExIndex++;
+        runExercise(currentExIndex);
+    });
+}
+
+function stopWorkoutAndExit() {
+    clearInterval(runnerTimerInterval);
+    goScreen('dashboard');
+}
+
+function finishWorkoutSession() {
+    goScreen('dashboard');
 }
 
 // ==========================================
