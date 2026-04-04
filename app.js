@@ -685,3 +685,34 @@ function generateWorkoutPlan() {
 
     goScreen('workout');
 }
+
+// ==========================================
+// PWA INSTALL LOGIC
+// ==========================================
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent default mini-infobar
+    e.preventDefault();
+    // Stash the event
+    deferredPrompt = e;
+    // Show the install button
+    const installBtn = document.getElementById('btn-install-app');
+    if (installBtn) {
+        installBtn.classList.remove('hidden');
+    }
+});
+
+async function installPWA() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            console.log('User accepted PWA install');
+        } else {
+            console.log('User dismissed PWA install');
+        }
+        deferredPrompt = null;
+        let btn = document.getElementById('btn-install-app');
+        if (btn) btn.classList.add('hidden');
+    }
+}
