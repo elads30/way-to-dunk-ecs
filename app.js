@@ -3,7 +3,7 @@ const translations = {
         'lbl-select-lang': "Select Language", 'lbl-next': "Next", 'lbl-prev': "Back",
         'onboarding-title': "Let's build your profile.", 'onboarding-subtitle': "Answer some quick questions to personalize your training.",
         'lbl-email': "Email (Your login ID)", 'lbl-name': "Your Name", 'lbl-gender': "Gender",
-        'opt-male': "Male", 'opt-female': "Female", 'lbl-goal': "Primary Goal",
+        'opt-male': "Male", 'opt-female': "Female", 'opt-other': "Prefer not to say", 'lbl-goal': "Primary Goal",
         'opt-dunk': "Increase Max Vert", 'opt-explosive': "General Explosiveness", 'opt-rehab': "Return from Injury",
         'lbl-diet': "Diet & Nutrition Habits", 'opt-diet-strict': "Great", 'opt-diet-average': "Average", 'opt-diet-poor': "Needs Improvement",
         'lbl-freq': "Training Frequency", 'opt-freq-1': "1-2 times/week", 'opt-freq-2': "3-5 times/week", 'opt-freq-3': "Every day",
@@ -22,7 +22,7 @@ const translations = {
         'lbl-select-lang': "בחר שפה", 'lbl-next': "הבא", 'lbl-prev': "חזור",
         'onboarding-title': "הפרופיל שלך", 'onboarding-subtitle': "כמה שאלות להתאמה אישית.",
         'lbl-email': "אימייל (זיהוי החשבון)", 'lbl-name': "השם שלך", 'lbl-gender': "מגדר",
-        'opt-male': "גבר", 'opt-female': "אישה", 'lbl-goal': "מטרה מרכזית",
+        'opt-male': "גבר", 'opt-female': "אישה", 'opt-other': "מעדיף לא לציין", 'lbl-goal': "מטרה מרכזית",
         'opt-dunk': "מקסום קפיצה", 'opt-explosive': "כוח מתפרץ", 'opt-rehab': "חזרה מפציעה",
         'lbl-diet': "תזונה", 'opt-diet-strict': "מצוין", 'opt-diet-average': "סביר", 'opt-diet-poor': "דרוש שיפור",
         'lbl-freq': "תדירות אימונים", 'opt-freq-1': "1-2 בשבוע", 'opt-freq-2': "3-5 בשבוע", 'opt-freq-3': "כל יום",
@@ -41,7 +41,7 @@ const translations = {
         'lbl-select-lang': "Idioma", 'lbl-next': "Siguiente", 'lbl-prev': "Atrás",
         'onboarding-title': "Tu Perfil", 'onboarding-subtitle': "Responde para personalizar el plan.",
         'lbl-email': "Correo", 'lbl-name': "Tu Nombre", 'lbl-gender': "Género",
-        'opt-male': "Hombre", 'opt-female': "Mujer", 'lbl-goal': "Meta",
+        'opt-male': "Hombre", 'opt-female': "Mujer", 'opt-other': "No decir", 'lbl-goal': "Meta",
         'opt-dunk': "Saltar más", 'opt-explosive': "Fuerza explosiva", 'opt-rehab': "Rehabilitación",
         'lbl-diet': "Dieta", 'opt-diet-strict': "Excelente", 'opt-diet-average': "Promedio", 'opt-diet-poor': "Debe mejorar",
         'lbl-freq': "Frecuencia", 'opt-freq-1': "1-2/semana", 'opt-freq-2': "3-5/semana", 'opt-freq-3': "Todos los días",
@@ -194,8 +194,10 @@ function selectGender(val) {
     document.getElementById('input-gender').value = val;
     let cardM = document.getElementById('card-male');
     let cardF = document.getElementById('card-female');
+    let cardO = document.getElementById('card-other');
     if(cardM) cardM.classList.remove('selected');
     if(cardF) cardF.classList.remove('selected');
+    if(cardO) cardO.classList.remove('selected');
     let cardSel = document.getElementById(`card-${val}`);
     if(cardSel) cardSel.classList.add('selected');
 }

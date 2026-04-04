@@ -69,16 +69,18 @@
                 <!-- Step 2: Gender -->
                 <div id="step-2" class="wizard-step hidden fade-in">
                     <h3 class="lbl-gender text-center">Gender</h3>
-                    <div class="gender-cards">
+                    <div class="gender-cards" style="display:flex; flex-direction:row; align-items:stretch; justify-content:space-between; gap:0.5rem; margin-top:1rem;">
                         <div class="gender-card" id="card-male" onclick="selectGender('male')">
-                            <!-- User's local image fallback to external icon -->
                             <img src="boy.png" alt="Boy" class="gender-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140047.png'">
                             <span class="opt-male mt-2 font-bold text-center" style="display:block;">Male</span>
                         </div>
                         <div class="gender-card" id="card-female" onclick="selectGender('female')">
-                            <!-- User's local image fallback to external icon -->
                             <img src="girl.png" alt="Girl" class="gender-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140048.png'">
                             <span class="opt-female mt-2 font-bold text-center" style="display:block;">Female</span>
+                        </div>
+                        <div class="gender-card" id="card-other" onclick="selectGender('other')">
+                            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Other" class="gender-img">
+                            <span class="opt-other mt-2 font-bold text-center" style="display:block; font-size: 0.8rem;">Prefer not to say</span>
                         </div>
                     </div>
                     <input type="hidden" id="input-gender" value="">
