@@ -45,10 +45,15 @@
         <!-- Screen 2: Onboarding -->
         <section id="screen-onboarding" class="screen hidden">
             <div class="onboarding-header text-center w-100 mb-2">
-                <div class="progress-wrapper">
-                    <div class="progress-bar" id="onboarding-progress"></div>
+                <div class="progress-circle-container" style="position:relative; width:60px; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(0,255,204,0.3));">
+                    <svg class="progress-ring" height="60" width="60" style="transform: rotate(-90deg);">
+                        <circle stroke-width="4" stroke="rgba(255,255,255,0.1)" fill="transparent" r="26" cx="30" cy="30"/>
+                        <circle id="onboarding-ring" stroke-width="4" stroke="#00ffcc" fill="transparent" r="26" cx="30" cy="30" 
+                                style="stroke-dasharray: 163.36; stroke-dashoffset: 163.36; transition: stroke-dashoffset 0.4s ease; stroke-linecap: round;" />
+                    </svg>
+                    <div id="onboarding-text" style="position:absolute; top:22px; width:100%; text-align:center; font-weight:bold; color:#fff; font-size:0.8rem;">1/6</div>
                 </div>
-                <h1 class="glow onboarding-title">Let's build your profile.</h1>
+                <h1 class="glow onboarding-title mt-2">Let's build your profile.</h1>
                 <p class="onboarding-subtitle">Answer some quick questions so our AI can personalize your training.</p>
             </div>
             

@@ -157,11 +157,15 @@ const totalSteps = 6;
 function nextStep(stepData) {
     if(stepData === 1) {
         let elName = document.getElementById('input-name').value;
-        if(!elName) document.getElementById('input-name').value = "Guest";
+        if(!elName || elName.trim() === "") {
+            alert(currentLang==='he' ? "חובה להכניס שם כדי להמשיך!" : "Please enter your name!");
+            return; // stop execution
+        }
     }
     if(stepData === 2) {
         if(!document.getElementById('input-gender').value) {
-            document.getElementById('input-gender').value = "male"; // Default fallback
+            alert(currentLang==='he' ? "חובה לבחור מגדר כדי להמשיך!" : "Please select your gender!");
+            return;
         }
     }
     
@@ -185,9 +189,14 @@ function prevStep(stepData) {
 }
 
 function updateProgress() {
-    let pct = (currentStep / totalSteps) * 100;
-    let pb = document.getElementById('onboarding-progress');
-    if (pb) pb.style.width = pct + '%';
+    let pct = currentStep / totalSteps;
+    let circle = document.getElementById('onboarding-ring');
+    if (circle) {
+        let circ = 163.36; // 2 * pi * 26
+        circle.style.strokeDashoffset = circ - (pct * circ);
+    }
+    let txt = document.getElementById('onboarding-text');
+    if(txt) txt.innerText = `${currentStep}/${totalSteps}`;
 }
 
 function selectGender(val) {
