@@ -27,73 +27,132 @@
         <!-- Screen 1: Language Selection -->
         <section id="screen-language" class="screen active fade-in">
             <h1 class="logo glow">WAY TO <strong>DUNK</strong></h1>
-            <h2>Select your language / בחר שפה</h2>
-            <div class="card-grid">
+            <h2 class="lbl-select-lang text-center">Select Language</h2>
+            <div class="card-grid" style="grid-template-columns: repeat(2, 1fr); max-height: 50vh; overflow-y:auto; padding-right:1rem;">
                 <button class="btn btn-primary" onclick="setLanguage('en')">English</button>
                 <button class="btn btn-primary" onclick="setLanguage('he')">עברית</button>
+                <button class="btn btn-primary" onclick="setLanguage('es')">Español</button>
+                <button class="btn btn-primary" onclick="setLanguage('fr')">Français</button>
+                <button class="btn btn-primary" onclick="setLanguage('ar')">العربية</button>
+                <button class="btn btn-primary" onclick="setLanguage('zh')">中文</button>
+                <button class="btn btn-primary" onclick="setLanguage('ru')">Русский</button>
+                <button class="btn btn-primary" onclick="setLanguage('de')">Deutsch</button>
+                <button class="btn btn-primary" onclick="setLanguage('pt')">Português</button>
+                <button class="btn btn-primary" onclick="setLanguage('hi')">हिन्दी</button>
             </div>
         </section>
 
         <!-- Screen 2: Onboarding -->
         <section id="screen-onboarding" class="screen hidden">
-            <h1 class="glow onboarding-title">Let's build your profile.</h1>
-            <p class="onboarding-subtitle">Answer some quick questions so our AI can personalize your training.</p>
+            <div class="onboarding-header text-center w-100 mb-2">
+                <div class="progress-wrapper">
+                    <div class="progress-bar" id="onboarding-progress"></div>
+                </div>
+                <h1 class="glow onboarding-title">Let's build your profile.</h1>
+                <p class="onboarding-subtitle">Answer some quick questions so our AI can personalize your training.</p>
+            </div>
             
-            <div class="form-container scrollable-form">
-                <div class="form-group">
-                    <label class="lbl-email">Email (Your login ID)</label>
-                    <input type="email" id="input-email" placeholder="you@email.com">
-                </div>
-                <div class="form-group">
-                    <label class="lbl-name">Your Name</label>
-                    <input type="text" id="input-name" placeholder="John">
-                </div>
-
-                <div class="form-group">
-                    <label class="lbl-gender">Gender</label>
-                    <select id="input-gender">
-                        <option value="male" class="opt-male">Male</option>
-                        <option value="female" class="opt-female">Female</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="lbl-goal">Primary Goal</label>
-                    <select id="input-goal">
-                        <option value="dunk" class="opt-dunk">First Dunk / Increase Max Vert</option>
-                        <option value="explosive" class="opt-explosive">General Explosiveness for Sport</option>
-                        <option value="rehab" class="opt-rehab">Return from Injury / Knee Health</option>
-                    </select>
+            <div class="form-container">
+                <!-- Step 1: Identity -->
+                <div id="step-1" class="wizard-step active-step fade-in">
+                    <div class="form-group">
+                        <label class="lbl-email">Email (Your login ID)</label>
+                        <input type="email" id="input-email" placeholder="you@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="lbl-name">Your Name</label>
+                        <input type="text" id="input-name" placeholder="John">
+                    </div>
+                    <button class="btn btn-neon w-100 mt-2 lbl-next" onclick="nextStep(1)">Next</button>
                 </div>
 
-                <div class="form-group">
-                    <label class="lbl-diet">Diet & Nutrition Habits</label>
-                    <select id="input-diet">
-                        <option value="strict" class="opt-diet-strict">Great (Tracking macros, high protein)</option>
-                        <option value="average" class="opt-diet-average">Average (Eating okay, some junk)</option>
-                        <option value="poor" class="opt-diet-poor">Needs Improvement (Inconsistent)</option>
-                    </select>
+                <!-- Step 2: Gender -->
+                <div id="step-2" class="wizard-step hidden fade-in">
+                    <h3 class="lbl-gender text-center">Gender</h3>
+                    <div class="gender-cards">
+                        <div class="gender-card" id="card-male" onclick="selectGender('male')">
+                            <!-- User's local image fallback to external icon -->
+                            <img src="boy.png" alt="Boy" class="gender-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140047.png'">
+                            <span class="opt-male mt-2 font-bold text-center" style="display:block;">Male</span>
+                        </div>
+                        <div class="gender-card" id="card-female" onclick="selectGender('female')">
+                            <!-- User's local image fallback to external icon -->
+                            <img src="girl.png" alt="Girl" class="gender-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140048.png'">
+                            <span class="opt-female mt-2 font-bold text-center" style="display:block;">Female</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="input-gender" value="">
+                    
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(2)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-next" id="btn-next-2" onclick="nextStep(2)">Next</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="lbl-freq">Training Frequency</label>
-                    <select id="input-freq">
-                        <option value="1-2" class="opt-freq-1">1-2 times a week</option>
-                        <option value="3-5" class="opt-freq-2">3-5 times a week</option>
-                        <option value="everyday" class="opt-freq-3">Every day</option>
-                    </select>
+                <!-- Step 3: Primary Goal -->
+                <div id="step-3" class="wizard-step hidden fade-in">
+                    <div class="form-group">
+                        <label class="lbl-goal">Primary Goal</label>
+                        <select id="input-goal">
+                            <option value="dunk" class="opt-dunk">First Dunk / Increase Max Vert</option>
+                            <option value="explosive" class="opt-explosive">General Explosiveness for Sport</option>
+                            <option value="rehab" class="opt-rehab">Return from Injury / Knee Health</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(3)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-next" onclick="nextStep(3)">Next</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="lbl-height">Height (cm)</label>
-                    <input type="number" id="input-height" placeholder="180">
-                </div>
-                <div class="form-group">
-                    <label class="lbl-weight">Weight (kg)</label>
-                    <input type="number" id="input-weight" placeholder="75">
+                <!-- Step 4: Diet -->
+                <div id="step-4" class="wizard-step hidden fade-in">
+                    <div class="form-group">
+                        <label class="lbl-diet">Diet & Nutrition Habits</label>
+                        <select id="input-diet">
+                            <option value="strict" class="opt-diet-strict">Great (Tracking macros, high protein)</option>
+                            <option value="average" class="opt-diet-average">Average (Eating okay, some junk)</option>
+                            <option value="poor" class="opt-diet-poor">Needs Improvement (Inconsistent)</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(4)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-next" onclick="nextStep(4)">Next</button>
+                    </div>
                 </div>
 
-                <button class="btn btn-neon btn-next glow-on-hover mt-4 lbl-generate w-100" onclick="saveProfileAndGoDashboard()">Save Profile</button>
+                <!-- Step 5: Frequency -->
+                <div id="step-5" class="wizard-step hidden fade-in">
+                    <div class="form-group">
+                        <label class="lbl-freq">Training Frequency</label>
+                        <select id="input-freq">
+                            <option value="1-2" class="opt-freq-1">1-2 times a week</option>
+                            <option value="3-5" class="opt-freq-2">3-5 times a week</option>
+                            <option value="everyday" class="opt-freq-3">Every day</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(5)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-next" onclick="nextStep(5)">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Height & Weight -->
+                <div id="step-6" class="wizard-step hidden fade-in">
+                    <div class="form-group">
+                        <label class="lbl-height">Height (cm)</label>
+                        <input type="number" id="input-height" placeholder="180">
+                    </div>
+                    <div class="form-group">
+                        <label class="lbl-weight">Weight (kg)</label>
+                        <input type="number" id="input-weight" placeholder="75">
+                    </div>
+                    <div style="display:flex; gap:1rem;" class="mt-4">
+                        <button class="btn btn-secondary w-100 lbl-prev" onclick="prevStep(6)">Back</button>
+                        <button class="btn btn-neon w-100 lbl-generate glow-on-hover" onclick="saveProfileAndGoDashboard()">Save Profile</button>
+                    </div>
+                </div>
+
             </div>
         </section>
 
