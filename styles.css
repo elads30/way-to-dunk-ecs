@@ -174,6 +174,7 @@ h1.logo strong { color: var(--accent-primary); -webkit-text-fill-color: var(--ac
     box-shadow: 0 15px 35px rgba(0,255,204,0.15);
 }
 .card-icon { font-size: 2.8rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+.gender-img { width: 100%; max-width: 140px; height: 150px; object-fit: contain; display: block; margin: 0 auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 
 /* Chart Container */
 .chart-container-wrapper {
