@@ -18,6 +18,9 @@
     
     <!-- ML5.js specifically tailored for Pose detection -->
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+    
+    <!-- Chart.js for Progress Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div id="app">
@@ -122,6 +125,11 @@
                     <h3 class="lbl-workout-tab">Get Workout</h3>
                     <p class="lbl-workout-desc">Receive a personalized plan based on your AI scans.</p>
                 </div>
+            </div>
+
+            <!-- Progress Chart -->
+            <div class="chart-container-wrapper glass-card mt-4 fade-in">
+                <canvas id="jumpChart" style="width:100%; max-height:200px;"></canvas>
             </div>
 
             <!-- Recent Jumps History with Upload Video Button -->

@@ -90,6 +90,8 @@ let jumpHistory = [];
 // ==========================================
 // AUTO-LOGIN LOGIC
 // ==========================================
+let myChart = null;
+
 window.onload = () => {
     let savedProfile = localStorage.getItem('waydunk_profile');
     if (savedProfile) {
@@ -477,6 +479,58 @@ function updateJumpHistoryUI() {
                 </div>
                 <div class="history-val">${jump.height} <span style="font-size:0.8rem;">cm</span></div>
             </div>`;
+    });
+    
+    renderChart();
+}
+
+function renderChart() {
+    const canvasEl = document.getElementById('jumpChart');
+    if (!canvasEl) return;
+    const ctx = canvasEl.getContext('2d');
+    if (myChart) myChart.destroy();
+    
+    if (jumpHistory.length === 0) {
+        // Empty state chart
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: ['','',''], datasets: [{ data: [0, 0, 0], borderColor: 'rgba(255,255,255,0.1)' }] },
+            options: { scales: { x: {display: false}, y: {display: false} }, plugins: { legend: {display: false} } }
+        });
+        return;
+    }
+    
+    let sortedData = [...jumpHistory].slice(-10); // last 10 jumps for cleaner graph
+    let labels = sortedData.map(j => j.date);
+    let dataPoints = sortedData.map(j => j.height);
+
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: currentLang === 'he' ? 'גובה (ס״מ)' : 'Height (cm)',
+                data: dataPoints,
+                borderColor: '#00ffcc',
+                backgroundColor: 'rgba(0, 255, 204, 0.15)',
+                borderWidth: 3,
+                pointBackgroundColor: '#ed2c91',
+                pointBorderColor: '#fff',
+                pointRadius: 5,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            color: '#8e95ac',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, suggestedMin: 10 },
+                x: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } }
+        }
     });
 }
 
