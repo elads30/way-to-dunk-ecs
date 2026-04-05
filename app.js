@@ -19,6 +19,8 @@ const translations = {
         'lbl-analysis-res': "Analysis Complete", 'lbl-height-res': "Jump Height:", 'lbl-hang-time': "Hang Time:",
         'lbl-knee-angle': "Max Knee Bend:", 'lbl-foot-clearance': "Foot Clearance:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Save & Return",
         'lbl-workout-main-title': "Your AI Plan", 'lbl-complete': "Complete Workout", 'alert-workout': "Workout registered!",
+        'lbl-mode-scan': "Live Scan Mode", 'lbl-mode-record': "Record Video", 'lbl-record-instr': "Record a video to save and scan",
+        'lbl-start-record': "Start Recording 🔴", 'lbl-stop-record': "Stop Recording ⏹️",
         'lbl-workout-duration': "How much time do you have?", 'opt-time-15': "15 Minutes (Quick)",
         'opt-time-30': "30 Minutes (Standard)", 'opt-time-45': "45 Minutes (Extended)", 'opt-time-60': "60 Minutes (Full Session)",
         'lbl-workout-difficulty': "Workout Intensity", 'opt-diff-easy': "Easy (Beginner)",
@@ -44,6 +46,8 @@ const translations = {
         'lbl-analysis-res': "הניתוח הושלם", 'lbl-height-res': "גובה:", 'lbl-hang-time': "זמן אוויר:",
         'lbl-knee-angle': "זווית ברך:", 'lbl-foot-clearance': "הרמת רגליים:", 'lbl-ai-rec-title': "משוב:", 'lbl-save-jump': "שמור וחזור",
         'lbl-workout-main-title': "התוכנית שלך", 'lbl-complete': "סיים אימון", 'alert-workout': "האימון נשמר!",
+        'lbl-mode-scan': "סריקה חיה", 'lbl-mode-record': "צילום סרטון", 'lbl-record-instr': "צלם סרטון לניתוח AI",
+        'lbl-start-record': "התחל צילום 🔴", 'lbl-stop-record': "עצור צילום ⏹️",
         'lbl-workout-duration': "כמה זמן יש לך לאימון?", 'opt-time-15': "15 דקות (זריז)",
         'opt-time-30': "30 דקות (רגיל)", 'opt-time-45': "45 דקות (מורחב)", 'opt-time-60': "60 דקות (שעה)",
         'lbl-workout-difficulty': "רמת קושי באימון", 'opt-diff-easy': "קל (מתחילים/חזרה לכושר)",
@@ -53,21 +57,22 @@ const translations = {
         'lbl-select-lang': "Idioma", 'lbl-next': "Siguiente", 'lbl-prev': "Atrás",
         'onboarding-title': "Tu Perfil", 'onboarding-subtitle': "Responde para personalizar el plan.",
         'lbl-email': "Correo", 'lbl-name': "Tu Nombre", 'lbl-gender': "Género",
-        'opt-male': "Hombre", 'opt-female': "Mujer", 'opt-other': "No decir", 'lbl-goal': "Meta",
-        'opt-goal-first-dunk': "Primer Mate", 'opt-goal-max-jump': "Aumentar Salto", 
-        'opt-goal-explosive': "Fuerza explosiva", 'opt-goal-fitness': "Salud", 'opt-goal-recovery': "Rehabilitación",
-        'lbl-diet': "Dieta", 'opt-diet-strict': "Excelente", 'opt-diet-average': "Promedio", 'opt-diet-poor': "Debe mejorar",
-        'lbl-freq': "Frecuencia", 'opt-freq-1': "1-2/semana", 'opt-freq-2': "3-5/semana", 'opt-freq-3': "Todos los días",
-        'lbl-height': "Altura (cm)", 'lbl-weight': "Peso (kg)", 'lbl-generate': "Guardar",
         'lbl-dash-est': "Perfil guardado", 'lbl-welcome': "¿Listo?", 'lbl-welcome-sub': "Elige el módulo.",
         'lbl-video-tab': "Análisis en vivo", 'lbl-video-desc': "Cámara", 'lbl-workout-tab': "Plan",
         'lbl-workout-desc': "Tu plan IA.", 'lbl-history': "Historia", 'lbl-upload-btn': "Subir Video",
-        'lbl-no-jumps': "Sin saltos.", 'lbl-back': "Atrás", 'lbl-camera-title': "Rastreador",
-        'lbl-jump-type': "Tipo:", 'opt-standing': "Fijo", 'opt-running': "Corriendo",
-        'lbl-start-scan': "Escanear", 'lbl-camera-instr': "Espera IA...",
-        'lbl-analysis-res': "Completado", 'lbl-height-res': "Altura:", 'lbl-hang-time': "Tiempo aire:",
-        'lbl-knee-angle': "Ángulo:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Guardar",
-        'lbl-workout-main-title': "Tu Plan", 'lbl-complete': "Hecho", 'alert-workout': "¡Registrado!"
+        'lbl-upload-tab': "Subir Video", 'lbl-upload-desc': "Analizar video grabado.",
+        'lbl-no-jumps': "No hay saltos.", 'lbl-back': "Atrás", 'lbl-camera-title': "Rastreador Inteligente",
+        'lbl-jump-type': "Tipo:", 'opt-standing': "De pie", 'opt-running': "Corriendo",
+        'lbl-start-scan': "Escanear", 'lbl-camera-instr': "Espera a la IA...",
+        'lbl-analysis-res': "Análisis Completo", 'lbl-height-res': "Altura:", 'lbl-hang-time': "T. de vuelo:",
+        'lbl-knee-angle': "Ángulo de rodilla:", 'lbl-foot-clearance': "E. Piernas:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Guardar",
+        'lbl-workout-main-title': "Tu plan", 'lbl-complete': "Terminar plano", 'alert-workout': "Guardado",
+        'lbl-mode-scan': "Scan en vivo", 'lbl-mode-record': "Grabar Video", 'lbl-record-instr': "Grabe un video",
+        'lbl-start-record': "Grabar 🔴", 'lbl-stop-record': "Parar ⏹️",
+        'lbl-workout-duration': "¿Cuánto tiempo tienes?", 'opt-time-15': "15 Minutos",
+        'opt-time-30': "30 Minutos", 'opt-time-45': "45 Minutos", 'opt-time-60': "60 Minutos",
+        'lbl-workout-difficulty': "Dificultad", 'opt-diff-easy': "Fácil",
+        'opt-diff-hard': "Difícil", 'opt-diff-pro': "Pro"
     },
     fr: { 'lbl-select-lang': "Langue", 'lbl-next': "Suivant", 'lbl-prev': "Retour", 'lbl-welcome': "Prêt?", 'lbl-ai-rec-title': "Feedback:" },
     ar: { 'lbl-select-lang': "اللغة", 'lbl-next': "التالي", 'lbl-prev': "رجوع", 'lbl-welcome': "جاهز؟", 'lbl-ai-rec-title': "الملاحظات:" },
@@ -293,9 +298,13 @@ let animFrameId;
 let isUploadedVideo = false;
 let uploadedVideoBlobUrl = null;
 let currentFacingMode = 'environment';
+let mediaRecorder = null;
+let recordedChunks = [];
+let cameraMode = 'scan';
 
 async function startCameraAnalysis() {
     isUploadedVideo = false;
+    setCameraMode('scan');
     goScreen('camera');
     document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "טוען מודל..." : "Loading Model...";
     document.getElementById('btn-start-scan').disabled = true;
@@ -405,11 +414,104 @@ function modelReadyUpload() {
 
 function modelReady() {
     modelReadyFlag = true;
-    document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "AI מוכן. המתן לסימון." : "AI Ready. Wait in frame.";
+    document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "המודל מוכן!" : "Model Ready!";
     document.getElementById('btn-start-scan').disabled = false;
     document.getElementById('btn-start-scan').innerText = translations[currentLang]['lbl-start-scan'];
+    
+    // Also enable record button if we are in record mode
+    document.getElementById('lbl-record-instr').innerText = translations[currentLang]['lbl-record-instr'];
+    let btnStartRecord = document.getElementById('btn-start-record');
+    if (btnStartRecord) {
+        btnStartRecord.disabled = false;
+        btnStartRecord.innerText = translations[currentLang]['lbl-start-record'];
+    }
+
     bodyPose.detectStart(video, gotPoses);
     animFrameId = requestAnimationFrame(drawSkeleton);
+}
+
+function setCameraMode(mode) {
+    cameraMode = mode;
+    document.getElementById('btn-mode-scan').className = mode === 'scan' ? 'btn btn-primary lbl-mode-scan' : 'btn btn-secondary lbl-mode-scan';
+    document.getElementById('btn-mode-record').className = mode === 'record' ? 'btn btn-primary lbl-mode-record' : 'btn btn-secondary lbl-mode-record';
+    
+    if(mode === 'scan') {
+        document.getElementById('scan-action-container').classList.remove('hidden');
+        document.getElementById('record-action-container').classList.add('hidden');
+    } else {
+        document.getElementById('scan-action-container').classList.add('hidden');
+        document.getElementById('record-action-container').classList.remove('hidden');
+    }
+}
+
+function startVideoRecording() {
+    if (!stream) return;
+    recordedChunks = [];
+    try {
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/mp4' });
+    } catch (e) {
+        // fallback to webm if mp4 unsupported
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    }
+    
+    mediaRecorder.ondataavailable = e => { 
+        if (e.data.size > 0) recordedChunks.push(e.data); 
+    };
+    
+    mediaRecorder.onstop = () => {
+        let blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType });
+        let url = URL.createObjectURL(blob);
+        // Stop current stream so AI can process uploaded video stream
+        if(stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+        startUploadedVideoAnalysis(url);
+    };
+
+    mediaRecorder.start();
+    document.getElementById('btn-start-record').classList.add('hidden');
+    document.getElementById('btn-stop-record').classList.remove('hidden');
+    document.getElementById('ai-status-overlay').innerText = currentLang==='he'?"מצלם... 🔴":"Recording... 🔴";
+    
+    // Stop skeleton analysis during pure "recording" to save resources until it's processed
+    if(bodyPose && video) {
+        bodyPose.detectStop();
+    }
+    cancelAnimationFrame(animFrameId);
+}
+
+function stopVideoRecording() {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        document.getElementById('btn-stop-record').classList.add('hidden');
+        document.getElementById('btn-start-record').classList.remove('hidden');
+    }
+}
+
+function startJumpScan() {
+    let countdown = 3;
+    const overlay = document.getElementById('countdown-overlay');
+    const statusTxt = document.getElementById('ai-status-overlay');
+    const btn = document.getElementById('btn-start-scan');
+    
+    overlay.classList.remove('hidden');
+    btn.disabled = true;
+
+    let interval = setInterval(() => {
+        overlay.innerText = countdown;
+        if (countdown === 0) {
+            clearInterval(interval);
+            overlay.innerText = "GO!";
+            statusTxt.innerText = currentLang === 'he' ? "מנתח תנועה... קפוץ!" : "Scanning... JUMP!";
+            isScanning = true;
+            jumpState = "WAITING";
+            baselineY = 0; minAngle = 180; baselineAnkleY = 0; minAnkleY = 9999;
+            
+            setTimeout(() => { overlay.classList.add('hidden'); }, 1000);
+            setTimeout(() => { finishScan(); }, 4000); // Live timeout scan 4s
+        }
+        countdown--;
+    }, 1000);
 }
 
 function gotPoses(results) { poses = results; }

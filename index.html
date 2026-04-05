@@ -289,21 +289,33 @@
                 <button class="btn btn-secondary" onclick="toggleCamera()" style="padding: 0.4rem; font-size: 1.2rem; border-radius:10px;">🔄</button>
             </div>
 
+            <!-- Mode Toggle -->
+            <div class="mt-2" style="display:flex; justify-content:center; gap:0.5rem; background:rgba(0,0,0,0.3); padding:0.5rem; border-radius:8px;">
+                <button id="btn-mode-scan" class="btn btn-primary lbl-mode-scan" style="flex:1;" onclick="setCameraMode('scan')">Live Scan Mode</button>
+                <button id="btn-mode-record" class="btn btn-secondary lbl-mode-record" style="flex:1;" onclick="setCameraMode('record')">Record Video</button>
+            </div>
+
             <div class="video-container mt-2">
                 <!-- Video Element -->
                 <video id="webcam-video" autoplay playsinline muted></video>
                 <!-- Canvas for drawing skeleton -->
                 <canvas id="skeleton-canvas"></canvas>
                 <!-- Status Overlay messages from AI -->
-                <div id="ai-status-overlay">Loading Model...</div>
+                    <div id="ai-status-overlay">Loading Model...</div>
                 
                 <!-- Countdown Overlay -->
                 <div id="countdown-overlay" class="hidden">3</div>
             </div>
 
-            <div class="camera-actions mt-4 text-center">
-                <p id="lbl-camera-instr" class="lbl-camera-instr mb-2" style="font-size:0.9rem; color: #ccc;">Make sure your full body is in the frame. When ready, click 'Start Scan' and jump when it says GO!</p>
+            <div class="mt-4 text-center" id="scan-action-container">
+                <p id="lbl-camera-instr" class="text-muted lbl-camera-instr" style="margin-bottom:0.5rem; font-size:0.9rem;">Wait for AI model...</p>
                 <button id="btn-start-scan" class="btn btn-neon w-100 lbl-start-scan" onclick="startJumpScan()" disabled>Wait for AI model...</button>
+            </div>
+
+            <div class="mt-4 text-center hidden" id="record-action-container">
+                <p id="lbl-record-instr" class="text-muted lbl-record-instr" style="margin-bottom:0.5rem; font-size:0.9rem;">Record a video to save and scan</p>
+                <button id="btn-start-record" class="btn btn-neon w-100 lbl-start-record" onclick="startVideoRecording()">Start Recording 🔴</button>
+                <button id="btn-stop-record" class="btn btn-secondary w-100 hidden lbl-stop-record" onclick="stopVideoRecording()">Stop Recording ⏹️</button>
             </div>
             
             <!-- Result Pop-up (Hidden initially) -->
