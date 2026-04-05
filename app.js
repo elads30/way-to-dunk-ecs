@@ -16,7 +16,7 @@ const translations = {
         'lbl-jump-type': "Jump Type:", 'opt-standing': "Standing", 'opt-running': "Running",
         'lbl-start-scan': "Start Scan", 'lbl-camera-instr': "Wait for AI model...",
         'lbl-analysis-res': "Analysis Complete", 'lbl-height-res': "Jump Height:", 'lbl-hang-time': "Hang Time:",
-        'lbl-knee-angle': "Max Knee Bend:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Save & Return",
+        'lbl-knee-angle': "Max Knee Bend:", 'lbl-foot-clearance': "Foot Clearance:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Save & Return",
         'lbl-workout-main-title': "Your AI Plan", 'lbl-complete': "Complete Workout", 'alert-workout': "Workout registered!",
         'lbl-workout-duration': "How much time do you have?", 'opt-time-15': "15 Minutes (Quick)",
         'opt-time-30': "30 Minutes (Standard)", 'opt-time-45': "45 Minutes (Extended)", 'opt-time-60': "60 Minutes (Full Session)",
@@ -40,7 +40,7 @@ const translations = {
         'lbl-jump-type': "סוג:", 'opt-standing': "מהמקום", 'opt-running': "מריצה",
         'lbl-start-scan': "סריקה", 'lbl-camera-instr': "המתן ל-AI...",
         'lbl-analysis-res': "הניתוח הושלם", 'lbl-height-res': "גובה:", 'lbl-hang-time': "זמן אוויר:",
-        'lbl-knee-angle': "זווית ברך:", 'lbl-ai-rec-title': "משוב:", 'lbl-save-jump': "שמור וחזור",
+        'lbl-knee-angle': "זווית ברך:", 'lbl-foot-clearance': "הרמת רגליים:", 'lbl-ai-rec-title': "משוב:", 'lbl-save-jump': "שמור וחזור",
         'lbl-workout-main-title': "התוכנית שלך", 'lbl-complete': "סיים אימון", 'alert-workout': "האימון נשמר!",
         'lbl-workout-duration': "כמה זמן יש לך לאימון?", 'opt-time-15': "15 דקות (זריז)",
         'opt-time-30': "30 דקות (רגיל)", 'opt-time-45': "45 דקות (מורחב)", 'opt-time-60': "60 דקות (שעה)",
@@ -286,6 +286,7 @@ let video, bodyPose, poses = [], stream = null, canvas, ctx;
 let modelReadyFlag = false, isScanning = false;
 let jumpState = "IDLE"; 
 let baselineY = 0, minAngle = 180, jumpStartTime = 0, jumpEndTime = 0;
+let baselineAnkleY = 0, minAnkleY = 9999;
 let animFrameId;
 let isUploadedVideo = false;
 let uploadedVideoBlobUrl = null;
@@ -390,7 +391,7 @@ function modelReadyUpload() {
     // Automatic scanning for uploaded video
     isScanning = true;
     jumpState = "WAITING";
-    baselineY = 0; minAngle = 180;
+    baselineY = 0; minAngle = 180; baselineAnkleY = 0; minAnkleY = 9999;
     
     // Video end triggers analysis completion
     video.onended = () => {
@@ -465,7 +466,7 @@ function startJumpScan() {
             statusTxt.innerText = currentLang === 'he' ? "מנתח תנועה... קפוץ!" : "Scanning... JUMP!";
             isScanning = true;
             jumpState = "WAITING";
-            baselineY = 0; minAngle = 180;
+            baselineY = 0; minAngle = 180; baselineAnkleY = 0; minAnkleY = 9999;
             
             setTimeout(() => { overlay.classList.add('hidden'); }, 1000);
             setTimeout(() => { finishScan(); }, 4000); // Live timeout scan 4s
@@ -480,13 +481,18 @@ function processJumpTracking(pose) {
     let hipY = (leftHip.y + rightHip.y) / 2;
     
     let hip = pose.keypoints[12], knee = pose.keypoints[14], ankle = pose.keypoints[16];
+    let leftAnkle = pose.keypoints[15];
+    let ankleY = ankle.confidence>leftAnkle.confidence ? ankle.y : leftAnkle.y;
+
     if (hip.confidence > 0.1 && knee.confidence > 0.1 && ankle.confidence > 0.1) {
         let angle = calculateAngle(hip, knee, ankle);
         if (angle < minAngle && angle > 50) minAngle = angle; 
     }
 
     if (jumpState === "WAITING") {
-        baselineY = hipY; jumpState = "TRACKING_DIP";
+        baselineY = hipY; 
+        baselineAnkleY = ankleY;
+        jumpState = "TRACKING_DIP";
     } else if (jumpState === "TRACKING_DIP") {
         if (hipY > baselineY + 20) jumpState = "READY_TO_FLY";
     } else if (jumpState === "READY_TO_FLY") {
@@ -495,10 +501,10 @@ function processJumpTracking(pose) {
             document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "באוויר!" : "AIRBORNE!";
         }
     } else if (jumpState === "IN_AIR") {
+        if (ankleY < minAnkleY) minAnkleY = ankleY;
+
         if (hipY > baselineY - 20) {
             jumpState = "LANDED"; jumpEndTime = Date.now();
-            // Important: we don't end scan immediately on uploaded video until it ends naturally, 
-            // but we stop calculating physics.
         }
     }
 }
@@ -530,9 +536,14 @@ function finishScan() {
     let bendAngle = Math.round(minAngle);
     if(bendAngle > 170) bendAngle = 90; 
 
+    let footScore = Math.round(baselineAnkleY - minAnkleY);
+    if (footScore < 0 || footScore > 4000) footScore = 0;
+
     document.getElementById('res-jump-height').innerText = heightCm;
     document.getElementById('res-hang-time').innerText = Math.round(hangTime * 1000);
     document.getElementById('res-knee-angle').innerText = bendAngle;
+    let footEl = document.getElementById('res-foot-clearance');
+    if(footEl) footEl.innerText = footScore + " px";
 
     let jumpType = document.getElementById('jump-type-select').value;
     let feedback = "";
