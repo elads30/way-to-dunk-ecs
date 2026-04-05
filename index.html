@@ -233,13 +233,19 @@
                 <p class="lbl-welcome-sub">Choose your training module for today.</p>
             </div>
 
-            <div class="card-grid dashboard-modules">
+            <!-- Main Actions -->
+            <div class="module-grid mt-4">
                 <div class="glass-card module-card" onclick="startCameraAnalysis()">
                     <div class="card-icon">🎥</div>
-                    <h3 class="lbl-video-tab">Live AI Analysis</h3>
+                    <h3 class="lbl-video-tab">Live Analysis</h3>
                     <p class="lbl-video-desc">Jump in front of the camera for real-time tracking.</p>
                 </div>
-                <div class="glass-card module-card" onclick="generateWorkoutPlan()">
+                <div class="glass-card module-card" onclick="promptGalleryAccess()">
+                    <div class="card-icon">📤</div>
+                    <h3 class="lbl-upload-tab">Upload Video</h3>
+                    <p class="lbl-upload-desc">Analyze a recorded jump from your phone gallery.</p>
+                </div>
+                <div class="glass-card module-card" onclick="generateWorkoutPlan()" style="grid-column: 1 / -1;">
                     <div class="card-icon">⚡</div>
                     <h3 class="lbl-workout-tab">Get Workout</h3>
                     <p class="lbl-workout-desc">Receive a personalized plan based on your AI scans.</p>
