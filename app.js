@@ -381,6 +381,58 @@ function toggleCamera() {
     startCameraAnalysis();
 }
 
+function setCameraMode(mode) {
+    if(mode === 'scan') {
+        document.getElementById('btn-mode-scan').classList.replace('btn-secondary', 'btn-primary');
+        document.getElementById('btn-mode-record').classList.replace('btn-primary', 'btn-secondary');
+        document.getElementById('scan-action-container').classList.remove('hidden');
+        document.getElementById('record-action-container').classList.add('hidden');
+    } else {
+        document.getElementById('btn-mode-record').classList.replace('btn-secondary', 'btn-primary');
+        document.getElementById('btn-mode-scan').classList.replace('btn-primary', 'btn-secondary');
+        document.getElementById('record-action-container').classList.remove('hidden');
+        document.getElementById('scan-action-container').classList.add('hidden');
+    }
+}
+
+function startVideoRecording() {
+    recordedChunks = [];
+    let stream = video.srcObject;
+    if(!stream) return;
+    
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' }); // most phones support webm/mp4 in browser
+    mediaRecorder.ondataavailable = (event) => {
+        if(event.data.size > 0) {
+            recordedChunks.push(event.data);
+        }
+    };
+    
+    mediaRecorder.onstop = () => {
+        let blob = new Blob(recordedChunks, { type: 'video/mp4' });
+        let url = URL.createObjectURL(blob);
+        document.getElementById('ai-status-overlay').style.display = 'block';
+        document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "הקלטה הושלמה. מכין לניתוח..." : "Recording finished. Preparing analysis...";
+        // Pass it to the cloud AI function directly!
+        startUploadedVideoAnalysis(url);
+    };
+    
+    mediaRecorder.start();
+    document.getElementById('btn-start-record').classList.add('hidden');
+    document.getElementById('btn-stop-record').classList.remove('hidden');
+    document.getElementById('ai-status-overlay').style.display = 'block';
+    document.getElementById('ai-status-overlay').style.color = '#ff3366';
+    document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "מקליט... קפוץ עכשיו!" : "Recording... Jump now!";
+}
+
+function stopVideoRecording() {
+    if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        document.getElementById('btn-stop-record').classList.add('hidden');
+        document.getElementById('btn-start-record').classList.remove('hidden');
+        document.getElementById('ai-status-overlay').style.color = '#00ffcc';
+    }
+}
+
 function promptGalleryAccess() {
     let msg = currentLang === 'he' ? 
         "האפליקציה מבקשת אישור לגשת לגלריה שלך לצורך ניתוח AI. הסרטון מעובד על המכשיר שלך בלבד ולא נשלח לשום שרת. האם לאשר גישה?" : 
