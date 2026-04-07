@@ -424,15 +424,15 @@ async function startUploadedVideoAnalysis(blobUrl) {
         let formData = new FormData();
         formData.append('video', blob, 'upload.mp4');
         
-        let res = await fetch('http://127.0.0.1:5000/analyze', { method: 'POST', body: formData });
-        if(!res.ok) throw new Error("Backend failed");
+        let res = await fetch('/api/analyze', { method: 'POST', body: formData });
+        if(!res.ok) throw new Error("Cloud Backend failed");
         
         let data = await res.json();
         if(data.error) throw new Error(data.error);
         
         finishScanAI(data);
     } catch(err) {
-        alert(currentLang === 'he' ? "שגיאה בתקשורת מול שרת הפייתון! ודא ש-app.py רץ ברקע!" : "Failed to connect to Python AI Backend! Make sure backend/app.py is running!");
+        alert(currentLang === 'he' ? "שגיאה בשרת הענן. ייתכן שגודל הסרטון גדול מדי." : "Failed to connect to Vercel Cloud Backend! Video might be too large.");
         stopCameraAndGo('dashboard');
     }
 }
