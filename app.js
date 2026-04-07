@@ -929,9 +929,34 @@ function generateWorkoutPlan() {
     if(durationId === "45") exerciseCount = 15;
     if(durationId === "60") exerciseCount = 20;
 
+    // AI Logic for Weight & Height (BMI check for Joint Safety)
+    let height = parseInt(userProfile.height);
+    let weight = parseInt(userProfile.weight);
+    let isHighBmi = false;
+    if (height > 0 && weight > 0) {
+        let bmi = weight / ((height/100) * (height/100));
+        if (bmi > 25) isHighBmi = true;
+    }
+
+    let availExercises = [...MASTER_EXERCISES];
+    
+    if (isHighBmi) {
+        // Remove high impact knee killers for heavier athletes
+        availExercises = availExercises.filter(ex => !['Depth Drops', 'Broad Jumps', 'Jump Squats', 'Tuck Jumps'].includes(ex.en));
+    }
+
+    if (userProfile.gender === 'female') {
+        // ACL injury prevention prioritizing stability and glutes/hamstrings
+        let lunge = availExercises.find(ex => ex.en === 'Lunges');
+        if(lunge) availExercises.push(lunge, lunge); // higher probability
+    }
+
     // Shuffle and pick
-    let shuffled = [...MASTER_EXERCISES].sort(() => 0.5 - Math.random());
-    workoutSessionQueue = shuffled.slice(0, Math.min(exerciseCount, shuffled.length));
+    let shuffled = availExercises.sort(() => 0.5 - Math.random());
+    workoutSessionQueue = [...new Set(shuffled)].slice(0, Math.min(exerciseCount, shuffled.length));
+
+    // Save BMI state for subtitle rendering
+    window.currentBmiStatusHigh = isHighBmi;
 
     // AI dynamic injection based on smart logic
     if (jumpHistory.length > 0) {
@@ -973,7 +998,12 @@ function generateWorkoutPlan() {
     // Subtitle rendering
     let introName = userProfile.name ? userProfile.name + ", " : "";
     let mainReason = document.getElementById('workout-custom-reason').innerText;
-    document.getElementById('workout-custom-reason').innerText = introName + (mainReason ? mainReason : (currentLang==='he'?"הנה תוכנית מותאמת אישית עבורך!":"Here is your personalized AI plan!"));
+    let finalReason = introName + (mainReason ? mainReason : (currentLang==='he'?"הנה תוכנית מותאמת אישית עבורך!":"Here is your personalized AI plan!"));
+    
+    if(window.currentBmiStatusHigh) {
+         finalReason += currentLang==='he'?"\n*הושמטו קפיצות עמוקות ועומס כבד בעקבות חישוב ה-BMI ליחס משקל/גובה שלך (למניעת שחיקת מפרקים).":"\n*High-impact deep jumps removed based on your BMI to strictly protect knee joints.";
+    }
+    document.getElementById('workout-custom-reason').innerText = finalReason;
 
     // Reset UI states
     document.getElementById('workout-preview').classList.remove('hidden');
@@ -1077,8 +1107,15 @@ function finishExercise() {
     document.getElementById('runner-exercise-name').innerText = currentLang==='he'?"מנוחה!":"REST!";
     document.getElementById('runner-instruction').innerText = currentLang==='he'?"קח אוויר. תרגיל הבא בקרוב...":"Catch your breath. Next soon...";
     document.getElementById('runner-image').src = "logo.png"; 
-    document.getElementById('runner-timer').innerText = "00:20";
-    startTimer(20, () => {
+
+    // Logic for Frequency: adjust rest time based on their fitness level frequency
+    let freq = userProfile.freq || '2';
+    let restTime = 30; // standard 30s
+    if (freq === '1') restTime = 45; // 1-2 times a week need more rest
+    if (freq === '3') restTime = 20; // Every day trainers need less rest
+
+    document.getElementById('runner-timer').innerText = `00:${restTime.toString().padStart(2, '0')}`;
+    startTimer(restTime, () => {
         currentExIndex++;
         runExercise(currentExIndex);
     });
@@ -1090,6 +1127,18 @@ function stopWorkoutAndExit() {
 }
 
 function finishWorkoutSession() {
+    let dietMsg = "";
+    if (userProfile.diet === 'poor') {
+         dietMsg = currentLang === 'he' ? "\n\nהערת תזונה אישית מ-AI:\nשמנו לב שהתזונה שלך בהגדרות 'טעונת שיפור'. הגוף שלך שרף עכשיו המון אנרגיה. חשוב לקחת כ-20 גרם חלבון מיד כדי לא לאבד מסת שריר!" 
+            : "\n\nAI Nutrition Note:\nSince your diet needs improvement, make sure you consume at least 20g of protein immediately to recover!";
+    } else if (userProfile.diet === 'strict') {
+         dietMsg = currentLang === 'he' ? "\n\nהערת תזונה אישית מ-AI:\nהתזונה שלך מצוינת, אז המערכת סומכת עליך שתדאג לארוחה משקמת טובה עכשיו." 
+            : "\n\nAI Nutrition Note:\nSince your diet is great, the system trusts you'll have a good recovery meal. Keep it up!";
+    }
+    
+    let baseMsg = currentLang === 'he' ? "האימון הושלם בהצלחה! כל הכבוד סיימת הכל!" : "Workout Complete! Great job! You finished the entire module.";
+    alert(baseMsg + dietMsg);
+
     goScreen('dashboard');
 }
 
