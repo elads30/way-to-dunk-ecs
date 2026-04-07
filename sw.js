@@ -1,4 +1,4 @@
-const CACHE_NAME = 'way2dunk-v4';
+const CACHE_NAME = 'way2dunk-v5';
 const ASSETS = [
   './',
   './index.html',

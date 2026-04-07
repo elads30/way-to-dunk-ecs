@@ -1,52 +1,54 @@
+const strEn = {
+    'lbl-select-lang': "Select Language", 'lbl-next': "Next", 'lbl-prev': "Back",
+    'onboarding-title': "Let's build your profile.", 'onboarding-subtitle': "Answer some quick questions to personalize your training.",
+    'lbl-email': "Email (Your login ID)", 'lbl-name': "Your Name", 'lbl-gender': "Gender",
+    'opt-male': "Male", 'opt-female': "Female", 'opt-other': "Prefer not to say", 'lbl-goal': "Primary Goal",
+    'opt-goal-first-dunk': "First Dunk", 'opt-goal-max-jump': "Increase Max Jump", 
+    'opt-goal-explosive': "Sport Explosiveness", 'opt-goal-fitness': "Fitness & Knee Health", 'opt-goal-recovery': "Injury Recovery",
+    'lbl-diet': "Diet & Nutrition Habits", 'opt-diet-strict': "Great", 'opt-diet-average': "Average", 'opt-diet-poor': "Needs Improvement",
+    'lbl-freq': "Training Frequency", 'opt-freq-1': "1-2 times/week", 'opt-freq-2': "3-5 times/week", 'opt-freq-3': "Every day",
+    'lbl-height': "Height (cm)", 'lbl-weight': "Weight (kg)", 'lbl-generate': "Save Profile",
+    'lbl-dash-est': "Profile Saved", 'lbl-welcome': "Ready to Fly", 'lbl-welcome-sub': "Choose your module.",
+    'lbl-video-tab': "Live Analysis", 'lbl-video-desc': "Real-time tracking.", 'lbl-workout-tab': "Get Workout",
+    'lbl-workout-desc': "AI personalized plan.", 'lbl-history': "Jump History", 'lbl-upload-btn': "Upload Video",
+    'lbl-upload-tab': "Upload Video", 'lbl-upload-desc': "Analyze a recorded jump.",
+    'lbl-no-jumps': "No jumps recorded.", 'lbl-back': "Back", 'lbl-camera-title': "Live Tracker",
+    'lbl-jump-type': "Jump Type:", 'opt-standing': "Standing", 'opt-running': "Running",
+    'lbl-start-scan': "Start Scan", 'lbl-camera-instr': "Wait for AI model...",
+    'lbl-analysis-res': "Analysis Complete", 'lbl-height-res': "Jump Height:", 'lbl-hang-time': "Hang Time:",
+    'lbl-knee-angle': "Max Knee Bend:", 'lbl-foot-clearance': "Foot Clearance:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Save & Return",
+    'lbl-workout-main-title': "Your AI Plan", 'lbl-complete': "Complete Workout", 'alert-workout': "Workout registered!",
+    'lbl-mode-scan': "Live Scan Mode", 'lbl-mode-record': "Record Video", 'lbl-record-instr': "Record a video to save and scan",
+    'lbl-start-record': "Start Recording 🔴", 'lbl-stop-record': "Stop Recording ⏹️",
+    'lbl-workout-duration': "How much time do you have?", 'opt-time-15': "15 Minutes (Quick)",
+    'opt-time-30': "30 Minutes (Standard)", 'opt-time-45': "45 Minutes (Extended)", 'opt-time-60': "60 Minutes (Full Session)",
+    'lbl-workout-difficulty': "Workout Intensity", 'opt-diff-easy': "Easy (Beginner)",
+    'opt-diff-hard': "Hard (Advanced)", 'opt-diff-pro': "Pro (Elite Athlete)"
+};
+
 const translations = {
-    en: {
-        'lbl-select-lang': "Select Language", 'lbl-next': "Next", 'lbl-prev': "Back",
-        'onboarding-title': "Let's build your profile.", 'onboarding-subtitle': "Answer some quick questions to personalize your training.",
-        'lbl-email': "Email (Your login ID)", 'lbl-name': "Your Name", 'lbl-gender': "Gender",
-        'opt-male': "Male", 'opt-female': "Female", 'opt-other': "Prefer not to say", 'lbl-goal': "Primary Goal",
-        'opt-goal-first-dunk': "First Dunk", 'opt-goal-max-jump': "Increase Max Jump", 
-        'opt-goal-explosive': "Sport Explosiveness", 'opt-goal-fitness': "Fitness & Knee Health", 'opt-goal-recovery': "Injury Recovery",
-        'lbl-diet': "Diet & Nutrition Habits", 'opt-diet-strict': "Great", 'opt-diet-average': "Average", 'opt-diet-poor': "Needs Improvement",
-        'lbl-freq': "Training Frequency", 'opt-freq-1': "1-2 times/week", 'opt-freq-2': "3-5 times/week", 'opt-freq-3': "Every day",
-        'lbl-height': "Height (cm)", 'lbl-weight': "Weight (kg)", 'lbl-generate': "Save Profile",
-        'lbl-dash-est': "Profile Saved", 'lbl-welcome': "Ready to Fly", 'lbl-welcome-sub': "Choose your module.",
-        'lbl-video-tab': "Live Analysis", 'lbl-video-desc': "Real-time tracking.", 'lbl-workout-tab': "Get Workout",
-        'lbl-workout-desc': "AI personalized plan.", 'lbl-history': "Jump History", 'lbl-upload-btn': "Upload Video",
-        'lbl-upload-tab': "Upload Video", 'lbl-upload-desc': "Analyze a recorded jump.",
-        'lbl-no-jumps': "No jumps recorded.", 'lbl-back': "Back", 'lbl-camera-title': "Live Tracker",
-        'lbl-jump-type': "Jump Type:", 'opt-standing': "Standing", 'opt-running': "Running",
-        'lbl-start-scan': "Start Scan", 'lbl-camera-instr': "Wait for AI model...",
-        'lbl-analysis-res': "Analysis Complete", 'lbl-height-res': "Jump Height:", 'lbl-hang-time': "Hang Time:",
-        'lbl-knee-angle': "Max Knee Bend:", 'lbl-foot-clearance': "Foot Clearance:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Save & Return",
-        'lbl-workout-main-title': "Your AI Plan", 'lbl-complete': "Complete Workout", 'alert-workout': "Workout registered!",
-        'lbl-mode-scan': "Live Scan Mode", 'lbl-mode-record': "Record Video", 'lbl-record-instr': "Record a video to save and scan",
-        'lbl-start-record': "Start Recording 🔴", 'lbl-stop-record': "Stop Recording ⏹️",
-        'lbl-workout-duration': "How much time do you have?", 'opt-time-15': "15 Minutes (Quick)",
-        'opt-time-30': "30 Minutes (Standard)", 'opt-time-45': "45 Minutes (Extended)", 'opt-time-60': "60 Minutes (Full Session)",
-        'lbl-workout-difficulty': "Workout Intensity", 'opt-diff-easy': "Easy (Beginner)",
-        'opt-diff-hard': "Hard (Advanced)", 'opt-diff-pro': "Pro (Elite Athlete)"
-    },
+    en: strEn,
     he: {
         'lbl-select-lang': "בחר שפה", 'lbl-next': "הבא", 'lbl-prev': "חזור",
         'onboarding-title': "הפרופיל שלך", 'onboarding-subtitle': "כמה שאלות להתאמה אישית.",
         'lbl-email': "אימייל (זיהוי החשבון)", 'lbl-name': "השם שלך", 'lbl-gender': "מגדר",
         'opt-male': "גבר", 'opt-female': "אישה", 'opt-other': "מעדיף לא לציין", 'lbl-goal': "מטרה מרכזית",
-        'opt-goal-first-dunk': "הטבעה ראשונה (First Dunk)", 'opt-goal-max-jump': "הגדלת קפיצה מקסימלית", 
-        'opt-goal-explosive': "כוח מתפרץ למשחקים", 'opt-goal-fitness': "חיזוק וכושר כללי", 'opt-goal-recovery': "התאוששות מפציעה",
+        'opt-goal-first-dunk': "הטבעה ראשונה", 'opt-goal-max-jump': "הגדלת קפיצה מקסימלית", 
+        'opt-goal-explosive': "כוח מתפרץ למשחקים", 'opt-goal-fitness': "חיזוק וכושר תנועתי", 'opt-goal-recovery': "התאוששות מפציעה",
         'lbl-diet': "תזונה", 'opt-diet-strict': "מצוין", 'opt-diet-average': "סביר", 'opt-diet-poor': "דרוש שיפור",
         'lbl-freq': "תדירות אימונים", 'opt-freq-1': "1-2 בשבוע", 'opt-freq-2': "3-5 בשבוע", 'opt-freq-3': "כל יום",
         'lbl-height': "גובה (ס״מ)", 'lbl-weight': "משקל (ק״ג)", 'lbl-generate': "שמור פרופיל",
         'lbl-dash-est': "הפרופיל נשמר", 'lbl-welcome': "מוכן לעוף", 'lbl-welcome-sub': "בחר אימון.",
-        'lbl-video-tab': "ניתוח חי", 'lbl-video-desc': "קפוץ למצלמה.", 'lbl-workout-tab': "קבל תוכנית",
+        'lbl-video-tab': "ניתוח חי", 'lbl-video-desc': "ניתוח מול מצלמה בזמן אמת.", 'lbl-workout-tab': "תוכנית אימון",
         'lbl-workout-desc': "תוכנית AI אישית.", 'lbl-history': "היסטוריה", 'lbl-upload-btn': "העלה וידאו",
-        'lbl-upload-tab': "העלה וידאו", 'lbl-upload-desc': "נתח סרטון מהגלריה קודם.",
+        'lbl-upload-tab': "העלה וידאו", 'lbl-upload-desc': "ניתוח מתוך סרטון שמור.",
         'lbl-no-jumps': "טרם נרשמו קפיצות.", 'lbl-back': "חזור", 'lbl-camera-title': "מעקב חכם",
-        'lbl-jump-type': "סוג:", 'opt-standing': "מהמקום", 'opt-running': "מריצה",
+        'lbl-jump-type': "סוג קפיצה:", 'opt-standing': "מהמקום", 'opt-running': "מריצה",
         'lbl-start-scan': "סריקה", 'lbl-camera-instr': "המתן ל-AI...",
-        'lbl-analysis-res': "הניתוח הושלם", 'lbl-height-res': "גובה:", 'lbl-hang-time': "זמן אוויר:",
-        'lbl-knee-angle': "זווית ברך:", 'lbl-foot-clearance': "הרמת רגליים:", 'lbl-ai-rec-title': "משוב:", 'lbl-save-jump': "שמור וחזור",
-        'lbl-workout-main-title': "התוכנית שלך", 'lbl-complete': "סיים אימון", 'alert-workout': "האימון נשמר!",
-        'lbl-mode-scan': "סריקה חיה", 'lbl-mode-record': "צילום סרטון", 'lbl-record-instr': "צלם סרטון לניתוח AI",
+        'lbl-analysis-res': "הניתוח הושלם", 'lbl-height-res': "גובה משוער:", 'lbl-hang-time': "זמן אוויר:",
+        'lbl-knee-angle': "זווית ברך בניתוק:", 'lbl-foot-clearance': "הרמת רגליים:", 'lbl-ai-rec-title': "משוב AI:", 'lbl-save-jump': "שמור וחזור",
+        'lbl-workout-main-title': "התוכנית שלך", 'lbl-complete': "סיים אימון", 'alert-workout': "האימון נשמר ביומן!",
+        'lbl-mode-scan': "סריקה חיה", 'lbl-mode-record': "צלם ושמור סרטון", 'lbl-record-instr': "צלם סרטון כדי לנתח מאוחר יותר",
         'lbl-start-record': "התחל צילום 🔴", 'lbl-stop-record': "עצור צילום ⏹️",
         'lbl-workout-duration': "כמה זמן יש לך לאימון?", 'opt-time-15': "15 דקות (זריז)",
         'opt-time-30': "30 דקות (רגיל)", 'opt-time-45': "45 דקות (מורחב)", 'opt-time-60': "60 דקות (שעה)",
@@ -56,31 +58,63 @@ const translations = {
     es: {
         'lbl-select-lang': "Idioma", 'lbl-next': "Siguiente", 'lbl-prev': "Atrás",
         'onboarding-title': "Tu Perfil", 'onboarding-subtitle': "Responde para personalizar el plan.",
-        'lbl-email': "Correo", 'lbl-name': "Tu Nombre", 'lbl-gender': "Género",
-        'lbl-dash-est': "Perfil guardado", 'lbl-welcome': "¿Listo?", 'lbl-welcome-sub': "Elige el módulo.",
-        'lbl-video-tab': "Análisis en vivo", 'lbl-video-desc': "Cámara", 'lbl-workout-tab': "Plan",
-        'lbl-workout-desc': "Tu plan IA.", 'lbl-history': "Historia", 'lbl-upload-btn': "Subir Video",
-        'lbl-upload-tab': "Subir Video", 'lbl-upload-desc': "Analizar video grabado.",
-        'lbl-no-jumps': "No hay saltos.", 'lbl-back': "Atrás", 'lbl-camera-title': "Rastreador Inteligente",
+        'lbl-email': "Correo electrónico", 'lbl-name': "Tu Nombre", 'lbl-gender': "Género",
+        'opt-male': "Hombre", 'opt-female': "Mujer", 'opt-other': "Prefiero no decirlo", 'lbl-goal': "Objetivo Principal",
+        'opt-goal-first-dunk': "Primer Dunk", 'opt-goal-max-jump': "Incrementar Salto", 
+        'opt-goal-explosive': "Fuerza Explosiva", 'opt-goal-fitness': "Rodillas Sanas", 'opt-goal-recovery': "Recuperación de lesión",
+        'lbl-diet': "Dieta y Nutrición", 'opt-diet-strict': "Excelente", 'opt-diet-average': "Promedio", 'opt-diet-poor': "Necesita mejorar",
+        'lbl-freq': "Frecuencia de Entrenamiento", 'opt-freq-1': "1-2 veces/sem", 'opt-freq-2': "3-5 veces/sem", 'opt-freq-3': "Todos los días",
+        'lbl-height': "Altura (cm)", 'lbl-weight': "Peso (kg)", 'lbl-generate': "Guardar Perfil",
+        'lbl-dash-est': "Perfil guardado", 'lbl-welcome': "¿Listo para Volar?", 'lbl-welcome-sub': "Elige el módulo para hoy.",
+        'lbl-video-tab': "Análisis en vivo", 'lbl-video-desc': "Seguimiento en tiempo real.", 'lbl-workout-tab': "Recibir Plan",
+        'lbl-workout-desc': "Plan IA personalizado.", 'lbl-history': "Historia", 'lbl-upload-btn': "Subir Video",
+        'lbl-upload-tab': "Subir Video", 'lbl-upload-desc': "Analizar un salto grabado.",
+        'lbl-no-jumps': "No hay saltos registrados.", 'lbl-back': "Atrás", 'lbl-camera-title': "Rastreador Inteligente",
         'lbl-jump-type': "Tipo:", 'opt-standing': "De pie", 'opt-running': "Corriendo",
-        'lbl-start-scan': "Escanear", 'lbl-camera-instr': "Espera a la IA...",
-        'lbl-analysis-res': "Análisis Completo", 'lbl-height-res': "Altura:", 'lbl-hang-time': "T. de vuelo:",
-        'lbl-knee-angle': "Ángulo de rodilla:", 'lbl-foot-clearance': "E. Piernas:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Guardar",
-        'lbl-workout-main-title': "Tu plan", 'lbl-complete': "Terminar plano", 'alert-workout': "Guardado",
-        'lbl-mode-scan': "Scan en vivo", 'lbl-mode-record': "Grabar Video", 'lbl-record-instr': "Grabe un video",
+        'lbl-start-scan': "Escanear", 'lbl-camera-instr': "Espera...",
+        'lbl-analysis-res': "Análisis Completo", 'lbl-height-res': "Altura est.:", 'lbl-hang-time': "T. de vuelo:",
+        'lbl-knee-angle': "Ángulo rodilla:", 'lbl-foot-clearance': "Despeje Piernas:", 'lbl-ai-rec-title': "Feedback:", 'lbl-save-jump': "Guardar",
+        'lbl-workout-main-title': "Tu plan de IA", 'lbl-complete': "Terminar sesión", 'alert-workout': "¡Registrado!",
+        'lbl-mode-scan': "Scan en vivo", 'lbl-mode-record': "Grabar Video", 'lbl-record-instr': "Graba un video para analizar luego",
         'lbl-start-record': "Grabar 🔴", 'lbl-stop-record': "Parar ⏹️",
-        'lbl-workout-duration': "¿Cuánto tiempo tienes?", 'opt-time-15': "15 Minutos",
-        'opt-time-30': "30 Minutos", 'opt-time-45': "45 Minutos", 'opt-time-60': "60 Minutos",
-        'lbl-workout-difficulty': "Dificultad", 'opt-diff-easy': "Fácil",
-        'opt-diff-hard': "Difícil", 'opt-diff-pro': "Pro"
+        'lbl-workout-duration': "¿Cuánto tiempo tienes?", 'opt-time-15': "15 Minutos (Rápido)",
+        'opt-time-30': "30 Minutos (Estándar)", 'opt-time-45': "45 Minutos (Extendido)", 'opt-time-60': "60 Minutos (Completo)",
+        'lbl-workout-difficulty': "Intensidad", 'opt-diff-easy': "Fácil (Principiante)",
+        'opt-diff-hard': "Difícil (Avanzado)", 'opt-diff-pro': "Pro (Atleta)"
     },
-    fr: { 'lbl-select-lang': "Langue", 'lbl-next': "Suivant", 'lbl-prev': "Retour", 'lbl-welcome': "Prêt?", 'lbl-ai-rec-title': "Feedback:" },
-    ar: { 'lbl-select-lang': "اللغة", 'lbl-next': "التالي", 'lbl-prev': "رجوع", 'lbl-welcome': "جاهز؟", 'lbl-ai-rec-title': "الملاحظات:" },
-    zh: { 'lbl-select-lang': "选择语言", 'lbl-next': "下一个", 'lbl-prev': "后退", 'lbl-welcome': "准备好了吗？", 'lbl-ai-rec-title': "反馈:" },
-    ru: { 'lbl-select-lang': "Язык", 'lbl-next': "Далее", 'lbl-prev': "Назад", 'lbl-welcome': "Готов?", 'lbl-ai-rec-title': "Отзыв:" },
-    de: { 'lbl-select-lang': "Sprache", 'lbl-next': "Weiter", 'lbl-prev': "Zurück", 'lbl-welcome': "Bereit?", 'lbl-ai-rec-title': "Feedback:" },
-    pt: { 'lbl-select-lang': "Idioma", 'lbl-next': "Próximo", 'lbl-prev': "Voltar", 'lbl-welcome': "Pronto?", 'lbl-ai-rec-title': "Feedback:" },
-    hi: { 'lbl-select-lang': "भाषा", 'lbl-next': "अगला", 'lbl-prev': "वापस", 'lbl-welcome': "तैयार?", 'lbl-ai-rec-title': "प्रतिक्रिया:" }
+    ru: {
+        'lbl-select-lang': "Выберите язык", 'lbl-next': "Далее", 'lbl-prev': "Назад",
+        'onboarding-title': "Ваш профиль", 'onboarding-subtitle': "Ответьте на вопросы для ИИ-персонализации.",
+        'lbl-email': "Ваш Email", 'lbl-name': "Ваше имя", 'lbl-gender': "Пол",
+        'opt-male': "Мужчина", 'opt-female': "Женщина", 'opt-other': "Свой вариант", 'lbl-goal': "Главная цель",
+        'opt-goal-first-dunk': "Первый Данк", 'opt-goal-max-jump': "Максимизация прыжка", 
+        'opt-goal-explosive': "Взрывная сила для игры", 'opt-goal-fitness': "Здоровье коленей", 'opt-goal-recovery': "Восстановление после травм",
+        'lbl-diet': "Качество питания", 'opt-diet-strict': "Отличное", 'opt-diet-average': "Среднее", 'opt-diet-poor': "Требует улучшений",
+        'lbl-freq': "Частота", 'opt-freq-1': "1-2 р/неделю", 'opt-freq-2': "3-5 р/неделю", 'opt-freq-3': "Ежедневно",
+        'lbl-height': "Рост (см)", 'lbl-weight': "Вес (кг)", 'lbl-generate': "Сохранить профиль",
+        'lbl-dash-est': "Профиль сохранен", 'lbl-welcome': "Готовы к взлету?", 'lbl-welcome-sub': "Выберите модуль на сегодня.",
+        'lbl-video-tab': "Живой анализ", 'lbl-video-desc': "Слежение в реальном времени.", 'lbl-workout-tab': "Начать план",
+        'lbl-workout-desc': "Умный план от ИИ.", 'lbl-history': "История прыжков", 'lbl-upload-btn': "Загрузить видео",
+        'lbl-upload-tab': "Загрузить видео", 'lbl-upload-desc': "Анализ из вашей галереи.",
+        'lbl-no-jumps': "Прыжков пока нет.", 'lbl-back': "Назад", 'lbl-camera-title': "Умный сканер",
+        'lbl-jump-type': "Тип прыжка:", 'opt-standing': "С места", 'opt-running': "С разбега",
+        'lbl-start-scan': "Сканировать", 'lbl-camera-instr': "Ждем нейросеть...",
+        'lbl-analysis-res': "Анализ завершен", 'lbl-height-res': "Высота:", 'lbl-hang-time': "Время в воздухе:",
+        'lbl-knee-angle': "Сгиб коленей:", 'lbl-foot-clearance': "Высота ног:", 'lbl-ai-rec-title': "Совет фитнес ИИ:", 'lbl-save-jump': "Сохранить",
+        'lbl-workout-main-title': "Ваш план", 'lbl-complete': "Завершить", 'alert-workout': "Сохранено!",
+        'lbl-mode-scan': "Живой скан", 'lbl-mode-record': "Запись видео", 'lbl-record-instr': "Запишите видео для точного анализа",
+        'lbl-start-record': "Начать запись 🔴", 'lbl-stop-record': "Стоп ⏹️",
+        'lbl-workout-duration': "Сколько у вас минут?", 'opt-time-15': "15 минут (Быстрый)",
+        'opt-time-30': "30 минут (Стандарт)", 'opt-time-45': "45 минут (Продвинутый)", 'opt-time-60': "60 минут (Полный цикл)",
+        'lbl-workout-difficulty': "Уровень сложности", 'opt-diff-easy': "Легко",
+        'opt-diff-hard': "Тяжело (Продвинутый)", 'opt-diff-pro': "Профи (Спортсмен)"
+    },
+    fr: { ...strEn, 'lbl-select-lang': "Langue" },
+    ar: { ...strEn, 'lbl-select-lang': "اللغة" },
+    zh: { ...strEn, 'lbl-select-lang': "选择语言" },
+    de: { ...strEn, 'lbl-select-lang': "Sprache" },
+    pt: { ...strEn, 'lbl-select-lang': "Idioma" },
+    hi: { ...strEn, 'lbl-select-lang': "भाषा" }
 };
 
 let currentLang = 'en';
@@ -145,7 +179,7 @@ function applyTranslations() {
         if(inputEl) inputEl.placeholder = nameMap[currentLang];
     }
 
-    const dict = translations[currentLang];
+    const dict = { ...translations['en'], ...translations[currentLang] };
     for (const [key, value] of Object.entries(dict)) {
         if (key === 'lbl-welcome') continue; 
         const els = document.querySelectorAll(`.${key}`);
@@ -365,10 +399,10 @@ function handleVideoUpload(event) {
     }
 }
 
-function startUploadedVideoAnalysis(blobUrl) {
+async function startUploadedVideoAnalysis(blobUrl) {
     isUploadedVideo = true;
     goScreen('camera');
-    document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "סורק סרטון מועלה..." : "Scanning uploaded video...";
+    document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "סורק סרטון מול שרת AI..." : "Scanning on AI Backend...";
     
     // Hide start button and instruction, since it auto-plays
     document.getElementById('btn-start-scan').classList.add('hidden');
@@ -381,17 +415,59 @@ function startUploadedVideoAnalysis(blobUrl) {
 
     video.srcObject = null;
     video.src = blobUrl;
-    video.loop = false;
+    video.loop = true;
+    video.play();
     
-    video.onloadedmetadata = () => {
-        canvas.width = video.clientWidth;
-        canvas.height = video.clientHeight;
-        if (!bodyPose) {
-            bodyPose = ml5.bodyPose(video, modelReadyUpload);
-        } else {
-            modelReadyUpload();
-        }
-    };
+    try {
+        let f = await fetch(blobUrl);
+        let blob = await f.blob();
+        let formData = new FormData();
+        formData.append('video', blob, 'upload.mp4');
+        
+        let res = await fetch('http://127.0.0.1:5000/analyze', { method: 'POST', body: formData });
+        if(!res.ok) throw new Error("Backend failed");
+        
+        let data = await res.json();
+        if(data.error) throw new Error(data.error);
+        
+        finishScanAI(data);
+    } catch(err) {
+        alert(currentLang === 'he' ? "שגיאה בתקשורת מול שרת הפייתון! ודא ש-app.py רץ ברקע!" : "Failed to connect to Python AI Backend! Make sure backend/app.py is running!");
+        stopCameraAndGo('dashboard');
+    }
+}
+
+function finishScanAI(data) {
+    document.getElementById('res-jump-height').innerText = data.height_cm;
+    document.getElementById('res-hang-time').innerText = data.hang_time_ms;
+    document.getElementById('res-knee-angle').innerText = data.knee_angle;
+    let footEl = document.getElementById('res-foot-clearance');
+    if(footEl) footEl.innerText = "--"; 
+
+    let feedback = "";
+    if (data.knee_angle < 90) {
+        feedback = currentLang === 'he' ? "ירדת עמוק מדי בסקוואט. אתה מאבד כוח מתפרץ." : "You are dropping too deep. You're losing elastic energy. Aim for ~100 degrees.";
+    } else if (data.knee_angle > 130) {
+        feedback = currentLang === 'he' ? "לא ירדת עמוק מספיק. אתה מפספס כוח חשוב מהתחת והירכיים." : "Shallow dip. You aren't recruiting your glutes fully. Dip slightly lower.";
+    } else {
+        feedback = currentLang === 'he' ? "תנוחה מזווית הקפיצה הייתה מושלמת!" : "Perfect knee angle! To improve, focus on arm-swing.";
+    }
+
+    minAngle = data.knee_angle;
+
+    document.getElementById('dynamic-ai-text').innerText = feedback;
+    document.getElementById('jump-result-card').classList.remove('hidden');
+
+    let jumpType = document.getElementById('jump-type-select').value;
+    jumpHistory.push({ 
+        type: jumpType, 
+        height: data.height_cm, 
+        date: new Date().toLocaleTimeString(),
+        source: "Python Backend" 
+    });
+
+    localStorage.setItem('waydunk_history', JSON.stringify(jumpHistory));
+    document.getElementById('ai-status-overlay').innerText = currentLang === 'he' ? "ניתוח הושלם!" : "Analysis Complete!";
 }
 
 function modelReadyUpload() {
@@ -805,9 +881,28 @@ function generateWorkoutPlan() {
     let shuffled = [...MASTER_EXERCISES].sort(() => 0.5 - Math.random());
     workoutSessionQueue = shuffled.slice(0, Math.min(exerciseCount, shuffled.length));
 
-    // AI dynamic injection if camera history exists
-    if (jumpHistory.length > 0 && minAngle > 130) {
-        workoutSessionQueue[0] = { en: "Deep Squat Jumps (Shallow dip fix)", he: "סקוואט עמוק (לתיקון כיפוף סריקה)", type: 'reps', easy: 5, hard: 10, pro: 15 };
+    // AI dynamic injection based on smart logic
+    if (jumpHistory.length > 0) {
+        let customReason = "";
+        if (minAngle < 90) {
+            customReason = currentLang === 'he' ? "ראינו שאתה יורד נמוך מדי בקפיצה. הנה חיזוק לליבה ולשליטה בעומק:" : "We saw you dip too low. Here are stability exercises to stop the momentum drop:";
+            workoutSessionQueue.unshift({ en: "Core Stabilization", he: "יציבות ליבה", type: 'time', easy: 30, hard: 45, pro: 60 });
+            workoutSessionQueue.unshift({ en: "Plank Starts", he: "התחלות פלאנק", type: 'time', easy: 20, hard: 40, pro: 60 });
+        } else if (minAngle > 130) {
+            customReason = currentLang === 'he' ? "ראינו שהקפיצה שלך 'שטוחה'. הוספנו סקוואטים עמוקים לכוח פיצוץ:" : "We saw your jump is too shallow. Added deep squats to build explosive bottom-power:";
+            workoutSessionQueue.unshift({ en: "Explosive Lunges", he: "מכרעיים מתפרצים", type: 'reps', easy: 10, hard: 20, pro: 35 });
+            workoutSessionQueue.unshift({ en: "Deep Squat Jumps (Shallow dip fix)", he: "סקוואט עמוק (לתיקון טכניקת קפיצה)", type: 'reps', easy: 10, hard: 20, pro: 35 });
+        } else {
+             if(userProfile.goal === 'fitness') {
+                 customReason = currentLang === 'he' ? "מטרה: בטיחות וברכיים. הנה אימון עדין." : "Goal: Fitness & Knee Health. Adjusted for joint safety.";
+             } else {
+                 customReason = currentLang === 'he' ? "זווית קפיצה מעולה! עובדים על מקסימום פוטנציאל." : "Perfect jump angle! Building pure explosiveness for higher flight.";
+             }
+        }
+        
+        if(customReason) {
+            document.getElementById('workout-custom-reason').innerText = customReason;
+        }
     }
 
     workoutSessionQueue.forEach((wk, idx) => {
@@ -825,7 +920,8 @@ function generateWorkoutPlan() {
 
     // Subtitle rendering
     let introName = userProfile.name ? userProfile.name + ", " : "";
-    document.getElementById('workout-custom-reason').innerText = introName + (currentLang==='he'?"הנה תוכנית מותאמת לזמן שביקשת!":"Here is your personalized timed plan!");
+    let mainReason = document.getElementById('workout-custom-reason').innerText;
+    document.getElementById('workout-custom-reason').innerText = introName + (mainReason ? mainReason : (currentLang==='he'?"הנה תוכנית מותאמת אישית עבורך!":"Here is your personalized AI plan!"));
 
     // Reset UI states
     document.getElementById('workout-preview').classList.remove('hidden');
