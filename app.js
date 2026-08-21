@@ -88,6 +88,21 @@ let userProfile = {};
 let jumpHistory = [];
 
 // ==========================================
+// GOOGLE ANALYTICS EVENT TRACKER
+// ==========================================
+function logEvent(action, category, label, value) {
+    if (typeof gtag === 'function') {
+        gtag('event', action, {
+            'event_category': category,
+            'event_label': label,
+            'value': value
+        });
+    } else {
+        console.log('Analytics Event:', action, { category, label, value });
+    }
+}
+
+// ==========================================
 // AUTO-LOGIN LOGIC
 // ==========================================
 window.onload = () => {
@@ -172,6 +187,9 @@ function saveProfileAndGoDashboard() {
 
     localStorage.setItem('waydunk_profile', JSON.stringify(userProfile));
     localStorage.setItem('waydunk_history', JSON.stringify(jumpHistory));
+
+    // GA event logging
+    logEvent('profile_saved', 'Onboarding', userProfile.goal);
 
     updateWelcomeMessage();
     goScreen('dashboard');
@@ -451,6 +469,9 @@ function finishScan() {
     });
 
     localStorage.setItem('waydunk_history', JSON.stringify(jumpHistory));
+
+    // GA event logging
+    logEvent('jump_scan', 'AI_Analysis', sourceLabel, heightCm);
 }
 
 function saveJumpAndExit() {
@@ -535,6 +556,9 @@ function generateWorkoutPlan() {
                 </div>
             </div>`;
     });
+
+    // GA event logging
+    logEvent('workout_generated', 'Workout', goal);
 
     goScreen('workout');
 }
