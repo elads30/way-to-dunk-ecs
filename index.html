@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Way To Dunk</title>
-    <meta name="description" content="AI powered application to help you jump higher and optimize biomechanics.">
+    <meta name="description" content="AI-powered sports biomechanics to optimize your vertical jump.">
     <!-- PWA Settings -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d0f16">
@@ -25,187 +25,314 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- ML5.js specifically tailored for Pose detection -->
+    <!-- ML5.js pre-trained Pose estimation library -->
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
 </head>
 <body>
     <div id="app">
-        <!-- Screen 1: Language Selection -->
-        <section id="screen-language" class="screen active fade-in">
+        <!-- Screen 1: Onboarding (Default start if not logged in) -->
+        <section id="screen-onboarding" class="screen active fade-in">
             <h1 class="logo glow">WAY TO <strong>DUNK</strong></h1>
-            <h2>Select your language / בחר שפה</h2>
-            <div class="card-grid">
-                <button class="btn btn-primary" onclick="setLanguage('en')">English</button>
-                <button class="btn btn-primary" onclick="setLanguage('he')">עברית</button>
-            </div>
-        </section>
-
-        <!-- Screen 2: Onboarding -->
-        <section id="screen-onboarding" class="screen hidden">
-            <h1 class="glow onboarding-title">Let's build your profile.</h1>
-            <p class="onboarding-subtitle">Answer some quick questions so our AI can personalize your training.</p>
+            <h2>Let's build your profile.</h2>
             
             <div class="form-container scrollable-form">
                 <div class="form-group">
-                    <label class="lbl-email">Email (Your login ID)</label>
+                    <label>Email Address</label>
                     <input type="email" id="input-email" placeholder="you@email.com">
                 </div>
                 <div class="form-group">
-                    <label class="lbl-name">Your Name</label>
+                    <label>Your Name</label>
                     <input type="text" id="input-name" placeholder="John">
                 </div>
-
                 <div class="form-group">
-                    <label class="lbl-gender">Gender</label>
+                    <label>Standing Reach (cm)</label>
+                    <input type="number" id="input-reach" placeholder="Leave blank to estimate (Height x 1.33)">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
                     <select id="input-gender">
-                        <option value="male" class="opt-male">Male</option>
-                        <option value="female" class="opt-female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
-                    <label class="lbl-goal">Primary Goal</label>
+                    <label>Primary Goal</label>
                     <select id="input-goal">
-                        <option value="dunk" class="opt-dunk">First Dunk / Increase Max Vert</option>
-                        <option value="explosive" class="opt-explosive">General Explosiveness for Sport</option>
-                        <option value="rehab" class="opt-rehab">Return from Injury / Knee Health</option>
+                        <option value="dunk">First Dunk / Maximize Jump Height</option>
+                        <option value="explosive">Explosiveness for Sport (Basketball/Volleyball)</option>
+                        <option value="rehab">Return from Injury / Knee Health</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label class="lbl-diet">Diet & Nutrition Habits</label>
+                    <label>Diet & Nutrition</label>
                     <select id="input-diet">
-                        <option value="strict" class="opt-diet-strict">Great (Tracking macros, high protein)</option>
-                        <option value="average" class="opt-diet-average">Average (Eating okay, some junk)</option>
-                        <option value="poor" class="opt-diet-poor">Needs Improvement (Inconsistent)</option>
+                        <option value="strict">Strict (High protein, tracking macros)</option>
+                        <option value="average">Average (Eating relatively clean)</option>
+                        <option value="poor">Needs Improvement (Inconsistent diet)</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label class="lbl-freq">Training Frequency</label>
+                    <label>Training Frequency</label>
                     <select id="input-freq">
-                        <option value="1-2" class="opt-freq-1">1-2 times a week</option>
-                        <option value="3-5" class="opt-freq-2">3-5 times a week</option>
-                        <option value="everyday" class="opt-freq-3">Every day</option>
+                        <option value="1-2">1-2 times a week</option>
+                        <option value="3-5">3-5 times a week</option>
+                        <option value="everyday">Every single day</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label class="lbl-height">Height (cm)</label>
+                    <label>Height (cm)</label>
                     <input type="number" id="input-height" placeholder="180">
                 </div>
                 <div class="form-group">
-                    <label class="lbl-weight">Weight (kg)</label>
+                    <label>Weight (kg)</label>
                     <input type="number" id="input-weight" placeholder="75">
                 </div>
 
-                <button class="btn btn-neon btn-next glow-on-hover mt-4 lbl-generate w-100" onclick="saveProfileAndGoDashboard()">Save Profile</button>
+                <button class="btn btn-neon w-100 mt-2" onclick="saveProfileAndGoDashboard()">Create Free Profile</button>
             </div>
         </section>
 
-        <!-- Screen 3: Dashboard / Navigation -->
+        <!-- Screen 2: Dashboard -->
         <section id="screen-dashboard" class="screen hidden">
             <header class="top-nav">
-                <h2 class="logo glow">WD <strong>App</strong></h2>
-                <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <div class="user-stats banner-glass" onclick="goScreen('onboarding')">
-                        <span class="lbl-dash-est">Profile Saved</span>
+                <div>
+                    <h2 class="glow" style="margin:0; font-size:1.4rem; font-weight:800;">WD <strong>App</strong></h2>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.6rem;">
+                    <!-- Subscription Tier Badge -->
+                    <div id="dashboard-tier-badge" class="user-badge badge-free" onclick="openPaywallModal()">
+                        <span>Free Tier</span>
                     </div>
-                    <button class="btn-secondary" onclick="logout()" style="font-size:0.8rem; cursor:pointer;" id="lbl-logout">Logout</button>
+                    <button class="btn-secondary" onclick="logout()">Logout</button>
                 </div>
             </header>
             
             <div class="dashboard-hero fade-in">
-                <h1 id="welcome-msg" class="lbl-welcome">Ready to Fly?</h1>
-                <p class="lbl-welcome-sub">Choose your training module for today.</p>
+                <h1 id="welcome-msg">Ready to Fly?</h1>
+                <!-- Weekly Usage Banner (Shown only for Free and Pro) -->
+                <div id="usage-alert-banner" class="usage-banner hidden">
+                    <span>⚠️ Weekly Scan Limit reached! Upgrade to continue.</span>
+                </div>
             </div>
 
+            <!-- Modules Grid -->
             <div class="card-grid dashboard-modules">
                 <div class="glass-card module-card" onclick="startCameraAnalysis()">
                     <div class="card-icon">🎥</div>
-                    <h3 class="lbl-video-tab">Live AI Analysis</h3>
-                    <p class="lbl-video-desc">Jump in front of the camera for real-time tracking.</p>
+                    <h3>Live AI Scan</h3>
+                    <p style="font-size:0.75rem; color:var(--text-muted);">Measure vertical height & knee angles.</p>
                 </div>
-                <div class="glass-card module-card" onclick="generateWorkoutPlan()">
+                <div class="glass-card module-card" onclick="checkPremiumAndGo('cns')">
+                    <div class="card-icon">🧠</div>
+                    <h3>CNS Fatigue Test</h3>
+                    <p style="font-size:0.75rem; color:var(--text-muted);">Check nervous system fatigue. (Pro)</p>
+                </div>
+                <div class="glass-card module-card" onclick="checkPremiumAndGo('workout')">
                     <div class="card-icon">⚡</div>
-                    <h3 class="lbl-workout-tab">Get Workout</h3>
-                    <p class="lbl-workout-desc">Receive a personalized plan based on your AI scans.</p>
+                    <h3>Get Workout</h3>
+                    <p style="font-size:0.75rem; color:var(--text-muted);">Personalized plyometrics templates.</p>
+                </div>
+                <div class="glass-card module-card" onclick="checkPremiumAndGo('coach')">
+                    <div class="card-icon">🤖</div>
+                    <h3>AI Personal Coach</h3>
+                    <p style="font-size:0.75rem; color:var(--text-muted);">Ask questions about recovery & pain. (Elite)</p>
                 </div>
             </div>
 
-            <!-- Recent Jumps History with Upload Video Button -->
+            <!-- Widgets Block -->
+            <div class="dashboard-widgets">
+                <!-- CNS Readiness Widget -->
+                <div class="glass-card">
+                    <div class="widget-title">
+                        <span>CNS Readiness</span>
+                        <strong id="widget-cns-val">Pending Test</strong>
+                    </div>
+                    <div class="cns-gauge">
+                        <div id="widget-cns-bar" class="cns-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Rim reach progress -->
+                <div class="glass-card">
+                    <div class="widget-title">
+                        <span>Milestone Progress (Rim Touch)</span>
+                        <strong id="widget-rim-left">-- cm left</strong>
+                    </div>
+                    <div class="rim-bar-container">
+                        <div class="rim-progress-bg">
+                            <div id="widget-rim-bar" class="rim-progress-fill"></div>
+                        </div>
+                        <div class="rim-label">
+                            <span id="rim-milestone-start">Backboard Touch</span>
+                            <span id="rim-milestone-end">Dunk regulation Ball</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Jumps History -->
             <div class="mt-4">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h3 class="lbl-history">Jump History</h3>
-                    <button class="btn btn-primary" style="padding:0.5rem 1rem; font-size:0.85rem;" onclick="promptGalleryAccess()">
-                        <span class="lbl-upload-btn">Upload Video </span>📤
+                    <h3 style="margin:0;">Performance History</h3>
+                    <button class="btn btn-primary" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="promptGalleryAccess()">
+                        Upload Video 📤
                     </button>
                     <!-- Hidden File Input -->
                     <input type="file" id="video-upload" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
                 </div>
                 <div id="jump-history-list" class="history-list mt-2">
-                    <p class="text-muted lbl-no-jumps">No jumps recorded yet. Use the Live AI!</p>
+                    <p class="text-muted">No jumps recorded yet. Activate Live AI Scan to track your progress!</p>
                 </div>
             </div>
         </section>
 
-        <!-- Screen 4: Live / Upload AI Camera -->
+        <!-- Screen 3: Live / Upload AI Camera & CNS Test -->
         <section id="screen-camera" class="screen hidden">
-            <button class="btn-back" onclick="stopCameraAndGo('dashboard')">← <span class="lbl-back">Back</span></button>
-            <h1 class="glow lbl-camera-title">Live AI Tracker</h1>
+            <button class="btn-back" onclick="stopCameraAndGo('dashboard')">← Back to Dashboard</button>
+            <h1 id="camera-screen-title" class="glow">Live AI Tracker</h1>
             
             <div class="camera-controls">
-                <label class="lbl-jump-type">Jump Type:</label>
-                <select id="jump-type-select">
-                    <option value="standing" class="opt-standing">Standing Vertical</option>
-                    <option value="running" class="opt-running">Running Vertical</option>
-                </select>
+                <div>
+                    <label>Jump Type:</label>
+                    <select id="jump-type-select">
+                        <option value="standing">Standing Vertical</option>
+                        <option value="running">Running Vertical</option>
+                    </select>
+                </div>
+                <!-- Usage stats -->
+                <span id="camera-usage-count" style="font-size:0.8rem; color:var(--text-muted);">Scans left: 3</span>
             </div>
 
             <div class="video-container mt-2">
-                <!-- Video Element -->
+                <!-- Video Feed -->
                 <video id="webcam-video" autoplay playsinline muted></video>
-                <!-- Canvas for drawing skeleton -->
+                <!-- Canvas -->
                 <canvas id="skeleton-canvas"></canvas>
-                <!-- Status Overlay messages from AI -->
-                <div id="ai-status-overlay">Loading Model...</div>
-                
-                <!-- Countdown Overlay -->
+                <!-- Overlay message -->
+                <div id="ai-status-overlay">Loading MoveNet Model...</div>
+                <!-- Countdown -->
                 <div id="countdown-overlay" class="hidden">3</div>
             </div>
 
             <div class="camera-actions mt-4 text-center">
-                <p id="lbl-camera-instr" class="lbl-camera-instr mb-2" style="font-size:0.9rem; color: #ccc;">Make sure your full body is in the frame. When ready, click 'Start Scan' and jump when it says GO!</p>
-                <button id="btn-start-scan" class="btn btn-neon w-100 lbl-start-scan" onclick="startJumpScan()" disabled>Wait for AI model...</button>
+                <p id="lbl-camera-instr" style="font-size:0.85rem; color: #ccc; margin-bottom: 0.5rem;">Position the camera far enough so your full body (head to toe) is visible. Click Start Scan and jump when you see "GO!".</p>
+                <button id="btn-start-scan" class="btn btn-neon w-100" onclick="startJumpScan()" disabled>Wait for AI Model...</button>
             </div>
             
-            <!-- Result Pop-up (Hidden initially) -->
-            <div id="jump-result-card" class="hidden slide-up mt-4 glass-card analysis-card">
-                <h3 class="neon-text lbl-analysis-res">Analysis Complete</h3>
-                <ul class="analysis-stats">
-                    <li><strong class="lbl-height-res">Est. Jump Height:</strong> <span id="res-jump-height">--</span> cm</li>
-                    <li><strong class="lbl-hang-time">Hang Time:</strong> <span id="res-hang-time">--</span> ms</li>
-                    <li><strong class="lbl-knee-angle">Max Knee Bend:</strong> <span id="res-knee-angle">--</span>°</li>
-                </ul>
-                <p class="ai-recommendation mt-2">
-                    <strong class="lbl-ai-rec-title">AI Feedback:</strong> <span id="dynamic-ai-text">Analyzing your form...</span>
-                </p>
-                <button class="btn btn-primary mt-4 w-100 lbl-save-jump" onclick="saveJumpAndExit()">Save & Return</button>
+            <!-- Result Pop-up Card (Either success stats or error warning) -->
+            <div id="jump-result-card" class="hidden slide-up mt-4 glass-card">
+                <div id="result-success-view">
+                    <h3 class="neon-text" style="color:var(--accent-primary);">Analysis Complete</h3>
+                    <ul style="list-style-type:none; margin: 1rem 0; line-height: 1.6;">
+                        <li><strong>Est. Jump Height:</strong> <span id="res-jump-height" style="color:var(--accent-primary); font-weight:800;">--</span> cm</li>
+                        <li><strong>Takeoff Velocity:</strong> <span id="res-velocity" style="color:var(--accent-primary); font-weight:800;">--</span> m/s</li>
+                        <li><strong>Hang Time:</strong> <span id="res-hang-time">--</span> ms</li>
+                        <li><strong>Max Knee Bend:</strong> <span id="res-knee-angle">--</span>°</li>
+                    </ul>
+                    <p style="font-size:0.9rem; border-top: 1px solid var(--glass-border); padding-top: 0.5rem;">
+                        <strong>AI Coach Feedback:</strong> <span id="dynamic-ai-text">Analyzing form...</span>
+                    </p>
+                </div>
+                <div id="result-failed-view" class="hidden" style="color:var(--accent-red); text-align: center; padding: 1rem 0;">
+                    <span style="font-size: 3rem;">⚠️</span>
+                    <h3 style="color: var(--accent-red); margin-top: 0.5rem;">AI Scan Failed</h3>
+                    <p id="failed-reason-text" style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-muted);">
+                        We could not accurately detect a complete jump sequence. Make sure your full body remains inside the camera frame.
+                    </p>
+                </div>
+                <button class="btn btn-primary mt-4 w-100" onclick="saveJumpAndExit()">Save & Exit</button>
             </div>
         </section>
 
-        <!-- Screen 5: Dynamic Workout Plan -->
+        <!-- Screen 4: Adaptive Workout Plan -->
         <section id="screen-workout" class="screen hidden">
-            <button class="btn-back" onclick="goScreen('dashboard')">← <span class="lbl-back">Back</span></button>
-            <h1 class="glow lbl-workout-main-title">Your AI Plan</h1>
-            <p id="workout-custom-reason" class="lbl-workout-desc-main" style="color:#00ffcc; margin-bottom:1rem; font-size:0.9rem;"></p>
+            <button class="btn-back" onclick="goScreen('dashboard')">← Dashboard</button>
+            <h1 class="glow">Your Plyometrics Plan</h1>
+            <p id="workout-custom-reason" style="color:var(--accent-primary); margin-bottom:1.5rem; font-size:0.9rem;"></p>
 
             <div id="dynamic-workout-list" class="workout-list">
                 <!-- Injected via app.js -->
             </div>
             
-            <button class="btn btn-primary mt-4 w-100 lbl-complete" onclick="alert(translations[currentLang]['alert-workout']); goScreen('dashboard')">Complete Workout</button>
+            <button class="btn btn-primary mt-4 w-100" onclick="alert('Workout tracked. Keep jumping!'); goScreen('dashboard')">Complete Workout</button>
         </section>
+
+        <!-- Screen 5: AI Personal Coach Chat -->
+        <section id="screen-coach" class="screen hidden">
+            <button class="btn-back" onclick="goScreen('dashboard')">← Dashboard</button>
+            <h1 class="glow">Virtual AI Coach</h1>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Your personal coach has analyzed your jump history and physical stats. Ask anything:</p>
+
+            <div class="coach-chat-container">
+                <div id="chat-messages-box" class="chat-messages">
+                    <div class="chat-msg chat-msg-coach">
+                        Hello! I am your AI Biomechanics Coach. I've analyzed your workouts. Ask me about knee pain, training scheduling, or how to get closer to dunking.
+                    </div>
+                </div>
+                
+                <div class="chat-presets">
+                    <button class="chat-preset-btn" onclick="sendPresetQuestion('My knees feel sore after jumps. What should I do?')">Knee Pain Info</button>
+                    <button class="chat-preset-btn" onclick="sendPresetQuestion('Based on my data, how do I increase explosive takeoff speed?')">Takeoff Speed Tips</button>
+                    <button class="chat-preset-btn" onclick="sendPresetQuestion('Can you review my latest jump biomechanics?')">Analyze My Bio</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Modal: Subscriptions Paywall (Pricing Options) -->
+        <div id="paywall-modal" class="modal-backdrop hidden">
+            <div class="premium-modal">
+                <button class="close-modal" onclick="closePaywallModal()">×</button>
+                <h1 class="glow" style="font-size:1.8rem; margin-bottom:0.5rem;">Unlock Premium</h1>
+                <p style="font-size:0.85rem; color:var(--text-muted);">Choose a plan to upgrade your training, analysis and unlock automatic AI routines.</p>
+                
+                <div class="modal-plans-grid">
+                    <!-- Free Plan Card -->
+                    <div id="plan-card-free" class="pricing-card" onclick="selectPlan('free')">
+                        <div class="plan-header">
+                            <span class="plan-title">Free Basic</span>
+                            <span class="plan-price">Free</span>
+                        </div>
+                        <div class="plan-limits">Limit: 3 scans / week</div>
+                        <ul class="plan-features">
+                            <li>Basic jump height tracking</li>
+                            <li>Standard generic workout</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pro Plan Card -->
+                    <div id="plan-card-pro" class="pricing-card selected" onclick="selectPlan('pro')">
+                        <div class="plan-header">
+                            <span class="plan-title">Pro Athlete</span>
+                            <span class="plan-price">$9.99/mo</span>
+                        </div>
+                        <div class="plan-limits">Limit: 20 scans / week</div>
+                        <ul class="plan-features">
+                            <li>Unlimited Live AI tracking</li>
+                            <li>CNS Fatigue & Readiness test widget</li>
+                            <li>Rim Touch & Dunk progress tracker</li>
+                            <li>Takeoff velocity tracking (m/s)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Elite Plan Card -->
+                    <div id="plan-card-elite" class="pricing-card" onclick="selectPlan('elite')">
+                        <div class="plan-header">
+                            <span class="plan-title" style="color:var(--accent-gold);">Elite Coach VIP</span>
+                            <span class="plan-price" style="color:var(--accent-gold);">$24.99/mo</span>
+                        </div>
+                        <div class="plan-limits">Limit: Unlimited scans</div>
+                        <ul class="plan-features">
+                            <li>Everything in Pro Plan</li>
+                            <li>Interactive AI Biomechanics coach chat</li>
+                            <li>Biomechanical Stress joint overlays (Red warnings)</li>
+                            <li>Adaptable overload training routines</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="btn btn-neon w-100" onclick="simulateUpgrade()">Activate Selected Plan</button>
+            </div>
+        </div>
 
     </div>
 
